@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+.title_font{
+    font-family: 'Kaushan Script', cursive;
+}
+body{
+    font-family: sans-serif;
+    background-color: #F5F5DC
+}
+.nb_custom{
+    background-color: #FFB000;
+}
+.color-pallete{
+    border: 1px black solid;
+    display: grid;
+    width: 400px;
+    background-color: black;
+    margin: auto;
+    grid-template-columns: 1fr 1fr;
+}
+.c1,.c2,.c3,.c4{
+    width: 200px;
+    height: 200px;
+}
+.c1{
+    background-color: #F5F5DC;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.c2{
+    background-color: #004225;
+}
+.c3{
+    background-color: #FFB000;
+}
+.c4{
+    background-color: #FFCF9D;
+}
+h5.card-title{
+    background-color: #004225;
+    padding: 10px;
+    color: white;
+}
+.custom_image{
+    width: 100%;
+    height: 200px;
+    background-image: url("butter-chicken-4.jpg");
+    background-size: cover;
+    background-position: center;
+}
+footer{
+    background: black;
+    height: 30px;
+    color: white;
+}
