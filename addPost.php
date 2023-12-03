@@ -1,36 +1,26 @@
 <?php
-// Database connection parameters
 $servername = "localhost:3306";
 $username = "root";
 $password = "";
 $dbname = "db1";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Function to sanitize user input
 function sanitizeInput($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
-
-// Process form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate inputs
     $title = sanitizeInput($_POST["title"]);
     $content = sanitizeInput($_POST["content"]);
     $ingredients = sanitizeInput($_POST["ingredients"]);
     $instructions = sanitizeInput($_POST["instructions"]);
     $isVegetarian = isset($_POST["isVegetarian"]) ? 1 : 0; // Check if the checkbox is checked
-
-    // Insert data into the database
     $sql = "INSERT INTO blog_posts (title, content, ingredients, instructions, is_vegetarian) VALUES ('$title', '$content', '$ingredients', '$instructions', $isVegetarian)";
 
     if ($conn->query($sql) === TRUE) {
@@ -39,8 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<div class="alert alert-danger" role="alert">Error: ' . $sql . '<br>' . $conn->error . '</div>';
     }
 }
-
-// Close the database connection
 $conn->close();
 ?>
 
