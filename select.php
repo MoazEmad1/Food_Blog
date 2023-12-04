@@ -1,10 +1,19 @@
+<?php
+include 'config.php';
+
+// Select all blog posts from the database
+$sql = "SELECT * FROM blog_posts";
+$result = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Blog Post</title>
+    <title>View Blog Posts</title>
     <link rel="stylesheet" href="bootstrap-5.3.2-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -47,28 +56,31 @@
     </nav>
 
     <div class="container">
-        <h2>Add a New Blog Post</h2>
-        <form method="post" action="insert.php">
-            <label for="title">Title:</label>
-            <input type="text" name="title" class="form-control" required>
-            <br>
-            <label for="content">Content:</label>
-            <textarea name="content" class="form-control" rows="4" required></textarea>
-            <br>
-            <label for="ingredients">Ingredients:</label>
-            <textarea name="ingredients" class="form-control" rows="4" required></textarea>
-            <br>
-            <label for="instructions">Instructions:</label>
-            <textarea name="instructions" class="form-control" rows="4" required></textarea>
-            <br>
-            <label>Is it Vegetarian?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="isVegetarian">
-                <label class="form-check-label" for="isVegetarian">Vegetarian</label>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-outline-success">Add Post</button>
-        </form>
+        <h2>View Blog Posts</h2>
+        
+        <?php
+        // Check if there are any posts
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="card mb-3">';
+                echo '<div class="card-body">';
+                echo '<h5 class="card-title">' . $row["title"] . '</h5>';
+                echo '<p class="card-text"><strong>Content:</strong> ' . $row["content"] . '</p>';
+                echo '<p class="card-text"><strong>Ingredients:</strong> ' . $row["ingredients"] . '</p>';
+                echo '<p class="card-text"><strong>Instructions:</strong> ' . $row["instructions"] . '</p>';
+                echo '<p class="card-text"><strong>Vegetarian:</strong> ' . ($row["is_vegetarian"] ? 'Yes' : 'No') . '</p>';
+                echo '</div>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>No blog posts found.</p>';
+        }
+
+        // Close the result set
+        $result->free_result();
+        ?>
+
     </div>
 
     <!-- Your additional content, like buttons and card, can be added here -->
