@@ -8,6 +8,7 @@ body{
 }
 .nb_custom{
     background-color: #FFB000;
+    margin-bottom: 20px;
 }
 .color-pallete{
     border: 1px black solid;
@@ -52,4 +53,49 @@ footer{
     background: black;
     height: 30px;
     color: white;
+}
+.search{
+    color: black;
+    border: 1px solid black;
+}
+.cbtn{
+    margin-bottom: 10px;
+}
+input.cbtn{
+    color: black;
+    border: 1px solid black;
+}
+.card{
+    border-radius: 5%;
+    margin-bottom: 20px;
+}
+.custom_image{
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+}
+.c_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 75%;
+    margin: auto;
+}
+.selected{
+    background-color: #FFCF9D;
+    color: black!important;
+}
+.filter_section{
+    width: 245px;
+    position: fixed;
+    background-color: rgba(0.5, 0.5, 0.5, 0.1);
+    top: 100px;
+    right: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
+.filter_title{
+    text-transform: uppercase;
+}
+.choices{
+    font-size: 1.5em;
 }
