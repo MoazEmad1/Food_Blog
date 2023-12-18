@@ -6,6 +6,7 @@ class Post{
     private $publishedAt;
     private $isVeg;
     private $caption;
+    private $postID;
 
     function __construct($imgUrl,$title,$publishedAt,$isVeg,$caption)
     {
@@ -14,6 +15,7 @@ class Post{
         $this -> publishedAt = $publishedAt;
         $this->isVeg = $isVeg;
         $this -> caption  = $caption;
+        //use the getPostID
     }
 
     function getImgUrl(){

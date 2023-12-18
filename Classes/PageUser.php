@@ -5,6 +5,7 @@ class PageUser {
     private $userName;
     private $pass;
     private $dob;
+    private $userID;
 
     function __construct($firstName,$lastName,$userName,$pass,$dob)
     {
@@ -13,6 +14,7 @@ class PageUser {
         $this -> userName = $userName;
         $this -> pass = $pass;
         $this -> dob = $dob;
+        //user getUSERQL
     }
 
     function getFirstName(){
@@ -38,6 +40,10 @@ class PageUser {
 
     function setUserName($newUser){
         $this->userName = $newUser;
-    }    
+    }
+
+    function getUserIDSQL(){
+        //sqlcode
+    }
 }
 ?>
