@@ -1,108 +1,111 @@
-<?php
-$servername = "localhost:3306";
-$username = "root";
-$password = "";
-$dbname = "db1";
+<div class="card col-lg-12">
+	<div class="card-body">
+		<?php 
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+		include 'db_connect.php';
+		include 'header.php';
+		if(isset($_GET['id'])){
+			$qry = $conn->query("SELECT * FROM posts where id=".$_GET['id']);
+			foreach ($qry->fetch_array() as $key => $value) {
+				$meta[$key] = $value;
+			}
+		}
+		?>
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-function sanitizeInput($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = sanitizeInput($_POST["title"]);
-    $content = sanitizeInput($_POST["content"]);
-    $ingredients = sanitizeInput($_POST["ingredients"]);
-    $instructions = sanitizeInput($_POST["instructions"]);
-    $isVegetarian = isset($_POST["isVegetarian"]) ? 1 : 0; // Check if the checkbox is checked
-    $sql = "INSERT INTO blog_posts (title, content, ingredients, instructions, is_vegetarian) VALUES ('$title', '$content', '$ingredients', '$instructions', $isVegetarian)";
+		<div class="container-fluid">
+			<form action="" id="manage-category">
+				<input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+				<div class="form-group col-md-4">
+					<label for="name" class="control-label">Title</label>
+					<input type="text" id="name" name="name" class="form-control" value="<?php echo isset($meta['title']) ? $meta['title'] : '' ?>" required>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="category_id" class="control-label">Category</label>
+					<select type="text" id="category_id" name="category_id" class="form-control"  required>
+						<option value=""></option>
+						<?php
+						$cat = $conn->query("SELECT * from category where status = 1 order by name asc");
+						while($row= $cat->fetch_assoc()){
+						 ?>
+						 <option value="<?php echo $row['id'] ?>" <?php echo isset($meta['category_id']) && $meta['category_id'] == $row['id'] ? 'selected' : '' ?>><?php echo $row['name'] ?></option>
+						<?php } ?>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label">Add Image to Content</label>
+						<div>
+						<img src="../assets/img/<?php echo isset($meta['img_path']) ? $meta['img_path'] : '' ?>" alt="" class="img-field">
 
-    if ($conn->query($sql) === TRUE) {
-        echo '<div class="alert alert-success" role="alert">Blog post added successfully!</div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">Error: ' . $sql . '<br>' . $conn->error . '</div>';
-    }
-}
-$conn->close();
-?>
+						<br>
+							<div class="input-group mb-3 col-md-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="">Upload</span>
+							  </div>
+							  <div class="custom-file">
+							    <input type="file" name="img" class="custom-file-input" id="img" aria-describedby="" accept="image/*" onchange="displayImg(this,$(this))">
+							    <label class="custom-file-label" for="img">Choose file</label>
+							  </div>
+							</div>
+						</div>
+				</div>
+				<div class="form-group">
+					<label for="post" class="control-label">Description</label>
+					<textarea type="text" id="post" name="post" class="text-jqte" required><?php echo isset($meta['post']) ? html_entity_decode($meta['post']) : '' ?></textarea>
+				</div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Blog Post</title>
-    <!--<link rel="stylesheet" href="bootstrap-5.3.2-dist/css/bootstrap.min.css">-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light nb_custom">
-    <div class="container-fluid">
-      <a class="navbar-brand title_font" href="#">Food Recipes</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Recipes</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle selected" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              User Actions
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="addPost.php">Add Recipe</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success search" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-    <div class="container">
-        <h2>Add a New Blog Post</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="title">Title:</label>
-            <input type="text" name="title" class="form-control" required>
-            <br>
-            <label for="content">Content:</label>
-            <textarea name="content" class="form-control" rows="4" required></textarea>
-            <br>
-            <label for="ingredients">Ingredients:</label>
-            <textarea name="ingredients" class="form-control" rows="4" required></textarea>
-            <br>
-            <label for="instructions">Instructions:</label>
-            <textarea name="instructions" class="form-control" rows="4" required></textarea>
-            <br>
-            <label>Is it Vegetarian?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="isVegetarian">
-                <label class="form-check-label" for="isVegetarian">Vegetarian</label>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-outline-success">Add Post</button>
-        </form>
-    </div>
+				<center><button class="btn btn-primary btn-block col-md-2">Save</button></center>
+			</form>
+		</div>
+		<script>
+	$('.text-jqte').jqte();
 
-    <!-- Your additional content, like buttons and card, can be added here -->
+			
+			function displayImg(input,_this) {
+			    if (input.files && input.files[0]) {
+			        var reader = new FileReader();
+			        reader.onload = function (e) {
+			        	_this.parent().parent().parent().find('.img-field').attr('src', e.target.result);
+            			_this.siblings('label').html(input.files[0]['name'])
+            			_this.siblings('input[name="fname"]').val('<?php echo strtotime(date('y-m-d H:i:s')) ?>_'+input.files[0]['name'])
+            			var p = $('<p></p>')
+			            
+			        }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!--<script text="text/javascript" src="js/bootstrap.bundle.min.js"></script>-->
-</body>
-</html>
+			        reader.readAsDataURL(input.files[0]);
+			    }
+			}
+
+			$('#manage-category').submit(function(e){
+				e.preventDefault();
+				start_load();
+
+				$.ajax({
+					url: 'ajax.php?action=save_post',
+				    data: new FormData($(this)[0]),
+				    cache: false,
+				    contentType: false,
+				    processData: false,
+				    method: 'POST',
+				    type: 'POST', 
+				    success: function(resp){
+				    	resp =JSON.parse(resp)
+				        if(resp.status== 1){
+				        	alert_toast("Data successfully updated.",'success');
+				        	setTimeout(function(){
+				        	location.replace('index.php?page=preview_post&id='+resp.id)
+
+				        },1500)
+				        }
+				    }
+				})
+			})
+
+		</script>
+	</div>
+</div>
+<style>
+	img.img-field {
+	max-width: 20vw;
+	max-height: 11vh;
+	}
+</style>
