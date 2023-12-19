@@ -9,7 +9,7 @@ class BanRecord {
      function __construct($uid, $admin_id) {
         $this->uid = $uid;
         $this->admin_id = $admin_id;
-        $this->banned_at = date('Y-m-d H:i:s'); // Set the current date and time for banned_at
+        $this->banned_at = date('Y-m-d H:i:s');
     }
 
      function getBanId() {
