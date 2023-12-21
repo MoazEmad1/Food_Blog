@@ -6,6 +6,7 @@ class PageUser {
     private $pass;
     private $dob;
     private $userID;
+    private $lastSeen;
 
     function __construct($firstName,$lastName,$userName,$pass,$dob)
     {
