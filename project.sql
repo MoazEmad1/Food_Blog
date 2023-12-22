@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 22, 2023 at 05:26 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Dec 22, 2023 at 05:45 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `project`
+-- Database: `proj2`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE `admin` (
   `user_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `type_of_authority` varchar(255) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE `grocery_item` (
   `item_name` varchar(255) NOT NULL,
   `img_url` varchar(2048) NOT NULL,
   `is_veg` int(1) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `grocery_item`
@@ -130,17 +130,16 @@ CREATE TABLE `page_user` (
   `user_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `dob` date NOT NULL,
-  `last_seen` datetime NOT NULL,
-  `gender` tinyint(1) NOT NULL COMMENT 'male is zero female is one'
+  `last_seen` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_user`
 --
 
-INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `pass`, `dob`, `last_seen`, `gender`) VALUES
-(1, 'John', 'Doe', 'john_doe', 'password123', '1990-01-01', '2023-12-22 16:00:00', 0),
-(2, 'Jane', 'Doe', 'jane_doe', 'password456', '1995-05-15', '2023-12-22 16:05:00', 0);
+INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `pass`, `dob`, `last_seen`) VALUES
+(1, 'John', 'Doe', 'john_doe', 'password123', '1990-01-01', '2023-12-22 16:00:00'),
+(2, 'Jane', 'Doe', 'jane_doe', 'password456', '1995-05-15', '2023-12-22 16:05:00');
 
 -- --------------------------------------------------------
 
@@ -156,33 +155,33 @@ CREATE TABLE `post` (
   `is_veg` int(1) NOT NULL,
   `caption` varchar(2048) NOT NULL,
   `user_id` int(11) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `post`
 --
 
 INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `caption`, `user_id`) VALUES
-(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 0),
-(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 0),
-(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 0);
+(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 1),
+(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 1),
+(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postIngredient`
+-- Table structure for table `postingredient`
 --
 
-CREATE TABLE `postIngredient` (
+CREATE TABLE `postingredient` (
   `ingredient_name` varchar(255) NOT NULL,
   `post_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `postIngredient`
+-- Dumping data for table `postingredient`
 --
 
-INSERT INTO `postIngredient` (`ingredient_name`, `post_id`) VALUES
+INSERT INTO `postingredient` (`ingredient_name`, `post_id`) VALUES
 ('Banana', 2),
 ('Lettuce', 1),
 ('Tomato', 3);
@@ -332,9 +331,9 @@ ALTER TABLE `post`
   ADD PRIMARY KEY (`pid`);
 
 --
--- Indexes for table `postIngredient`
+-- Indexes for table `postingredient`
 --
-ALTER TABLE `postIngredient`
+ALTER TABLE `postingredient`
   ADD PRIMARY KEY (`ingredient_name`,`post_id`),
   ADD KEY `pidFK` (`post_id`);
 
@@ -393,7 +392,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `grocery_item`
 --
 ALTER TABLE `grocery_item`
-  MODIFY `gid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `page_user`
@@ -405,7 +404,7 @@ ALTER TABLE `page_user`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -446,9 +445,9 @@ ALTER TABLE `item_confirmation`
   ADD CONSTRAINT `giidFK` FOREIGN KEY (`giid`) REFERENCES `grocery_item` (`gid`);
 
 --
--- Constraints for table `postIngredient`
+-- Constraints for table `postingredient`
 --
-ALTER TABLE `postIngredient`
+ALTER TABLE `postingredient`
   ADD CONSTRAINT `pidFK` FOREIGN KEY (`post_id`) REFERENCES `post` (`pid`);
 
 --
