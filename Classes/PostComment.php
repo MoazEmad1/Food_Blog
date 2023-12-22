@@ -3,13 +3,13 @@
 class PostComment {
     private $uid;
     private $pid;
-    private $commented_at;
+    private $commentedAt;
     private $content;
 
     function __construct($uid, $pid, $content) {
         $this->uid = $uid;
         $this->pid = $pid;
-        $this->commented_at = date('Y-m-d H:i:s');
+        $this->commentedAt = date('Y-m-d H:i:s');
         $this->content = $content;
     }
 
@@ -22,7 +22,7 @@ class PostComment {
     }
 
     function getCommentedAt() {
-        return $this->commented_at;
+        return $this->commentedAt;
     }
 
     function getContent() {

@@ -1,10 +1,14 @@
+.card{
+    width: 25%;
+    margin: 2em auto;
+}
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 .title_font{
     font-family: 'Kaushan Script', cursive;
 }
 body{
     font-family: sans-serif;
-    background-color: #F5F5DC
+    background-color: #F5F5DC;
 }
 .nb_custom{
     background-color: #FFB000;
@@ -97,4 +101,29 @@ input.cbtn{
 }
 .choices{
     font-size: 1.5em;
+}
+#addPostPage{
+    width: 45%;
+    margin-left:auto;
+    margin-right: auto;
+    text-align: center;
+    padding-bottom: 3em;
+    border: 2px double black;
+}
+.form input{
+    margin-bottom: 35px;
+}
+.img_post{
+    height: 250px;
+    background-image: url("Design Prototype/copy-space-italian-food-ingredients.jpg");
+    background-size: cover;
+}
+.postIng{
+    border: 2px double black;
+    background-color: white;
+    padding: 10px;
+    position: fixed;
+    top: 25%;
+    left: 35%;
+    display: none;
 }

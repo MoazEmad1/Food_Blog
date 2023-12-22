@@ -16,6 +16,7 @@ class PageUser {
         $this -> pass = $pass;
         $this -> dob = $dob;
         //user getUSERQL
+        $this->lastSeen = date('Y-m-d H:i:s');
     }
 
     function getFirstName(){
@@ -45,6 +46,10 @@ class PageUser {
 
     function getUserIDSQL(){
         //sqlcode
+    }
+
+    function getLastSeen(){
+        return $this->lastSeen;
     }
 }
 ?>

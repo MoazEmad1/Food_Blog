@@ -3,12 +3,12 @@
 class PostSave {
     private $uid;
     private $pid;
-    private $saved_at;
+    private $savedAt;
 
      function __construct($uid, $pid) {
         $this->uid = $uid;
         $this->pid = $pid;
-        $this->saved_at = date('Y-m-d H:i:s'); 
+        $this->savedAt = date('Y-m-d H:i:s'); 
     }
 
      function getUid() {
@@ -20,7 +20,7 @@ class PostSave {
     }
 
      function getSavedAt() {
-        return $this->saved_at;
+        return $this->savedAt;
     }
 
 }

@@ -10,3 +10,9 @@ CREATE TABLE follower(
 ALTER TABLE page_user
 ADD COLUMN last_seen datetime not null;
 
+alter table post
+add column user_id int not null;
+
+
+alter table post
+add CONSTRAINT uIdPostFK FOREIGN KEY (user_id) REFERENCES page_user(uid)

@@ -3,12 +3,12 @@
 class PostLike {
     private $uid;
     private $pid;
-    private $liked_at;
+    private $likedAt;
 
      function __construct($uid, $pid) {
         $this->uid = $uid;
         $this->pid = $pid;
-        $this->liked_at = date('Y-m-d H:i:s');
+        $this->likedAt = date('Y-m-d H:i:s');
     }
 
      function getUid() {
@@ -20,7 +20,7 @@ class PostLike {
     }
 
      function getLikedAt() {
-        return $this->liked_at;
+        return $this->likedAt;
     }
 
 }
