@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2023 at 06:59 PM
+-- Generation Time: Dec 22, 2023 at 10:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `project`
+-- Database: `proj2`
 --
 
 -- --------------------------------------------------------
@@ -164,9 +164,10 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `caption`, `user_id`) VALUES
-(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 0),
-(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 0),
-(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 0);
+(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 1),
+(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 1),
+(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 1),
+(4, 'Users/test/images/apple.jpg', 'test', '2023-12-22 20:32:47', 1, 'delicious', 2);
 
 -- --------------------------------------------------------
 
@@ -186,7 +187,8 @@ CREATE TABLE `postingredient` (
 INSERT INTO `postingredient` (`ingredient_name`, `post_id`) VALUES
 ('Banana', 2),
 ('Lettuce', 1),
-('Tomato', 3);
+('Tomato', 3),
+('yum', 4);
 
 -- --------------------------------------------------------
 
@@ -207,7 +209,10 @@ CREATE TABLE `post_comment` (
 
 INSERT INTO `post_comment` (`uid`, `pid`, `commented_at`, `content`) VALUES
 (1, 1, '2023-12-22 16:25:00', 'Looks delicious!'),
-(2, 2, '2023-12-22 16:30:00', 'Great recipe!');
+(2, 2, '2023-12-22 16:30:00', 'Great recipe!'),
+(2, 2, '2023-12-22 22:47:54', 'af'),
+(2, 1, '2023-12-22 23:00:30', 'lll'),
+(2, 1, '2023-12-22 23:00:52', 'primary 2');
 
 -- --------------------------------------------------------
 
@@ -226,8 +231,13 @@ CREATE TABLE `post_like` (
 --
 
 INSERT INTO `post_like` (`uid`, `pid`, `liked_at`) VALUES
-(1, 1, '2023-12-22 16:35:00'),
-(2, 3, '2023-12-22 16:40:00');
+(1, 1, '2023-12-22 23:26:52'),
+(1, 2, '2023-12-22 23:26:55'),
+(1, 3, '2023-12-22 23:28:31'),
+(2, 1, '2023-12-22 22:32:51'),
+(2, 2, '2023-12-22 22:34:43'),
+(2, 3, '2023-12-22 22:35:29'),
+(2, 4, '2023-12-22 22:56:16');
 
 -- --------------------------------------------------------
 
@@ -339,13 +349,6 @@ ALTER TABLE `postingredient`
   ADD KEY `pidFK` (`post_id`);
 
 --
--- Indexes for table `post_comment`
---
-ALTER TABLE `post_comment`
-  ADD PRIMARY KEY (`uid`,`pid`),
-  ADD KEY `pidFKCom` (`pid`);
-
---
 -- Indexes for table `post_like`
 --
 ALTER TABLE `post_like`
@@ -405,7 +408,7 @@ ALTER TABLE `page_user`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -449,13 +452,6 @@ ALTER TABLE `item_confirmation`
 --
 ALTER TABLE `postingredient`
   ADD CONSTRAINT `pidFK` FOREIGN KEY (`post_id`) REFERENCES `post` (`pid`);
-
---
--- Constraints for table `post_comment`
---
-ALTER TABLE `post_comment`
-  ADD CONSTRAINT `pidFKCom` FOREIGN KEY (`pid`) REFERENCES `post` (`pid`),
-  ADD CONSTRAINT `uidFKCom` FOREIGN KEY (`uid`) REFERENCES `page_user` (`uid`);
 
 --
 -- Constraints for table `post_like`

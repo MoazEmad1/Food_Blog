@@ -19,10 +19,33 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    //error_reporting(E_ERROR | E_PARSE);
-    if($_GET['comm']!=null || $_GET['like']!=NULL){
-      echo"YES";
+    session_start();
+    error_reporting(E_ERROR | E_PARSE);
+    if($_SESSION['succ']!=null){
+      if($_SESSION['comment']!=null){
+        echo"<div class='alert alert-success' role='alert'>
+        Comment Added!
+      </div>";
+      }else if($_SESSION['like']!=null){
+        echo"<div class='alert alert-success' role='alert'>
+        Like Added!
+      </div>";
+      }
+    }else if($_SESSION['failed']!=null){
+      if($_SESSION['comment']!=null){
+        echo"<div class='alert alert-danger' role='alert'>
+        Comment failed to add!
+      </div>";
+      }else if($_SESSION['like']!=null){
+        echo"<div class='alert alert-danger' role='alert'>
+        Like failed to add!
+      </div>";
+      }
     }
+    unset($_SESSION['failed']);
+    unset($_SESSION['succ']);
+    unset($_SESSION['like']);
+    unset($_SESSION['comment']);
     require 'config2.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
@@ -54,12 +77,18 @@
         <li>...</li>
         </ul>
         </p>
-        <p>10k Likes</p>
+        <p>";
+        $sql = "select count(pid) as count from post_like
+        where pid = {$row['pid']}";
+        $ret4 = mysqli_query($conn,$sql);
+        $count = mysqli_fetch_assoc($ret4);
+        echo "{$count['count']}";
+         echo" Likes</p>
         <form action='Controllers/LCController.php'>
         <input type='submit' class='btn btn-outline-success' value='Like' name='like'>
         <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
         <input type='text' name='comment' >
-        <input type = 'hidden' name='user' value='{$row['user_id']}'>
+        <input type = 'hidden' name='user' value='1'>
         <input type = 'hidden' name='post' value='{$row['pid']}'>
         </form>
       </div>
