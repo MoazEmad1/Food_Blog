@@ -19,7 +19,7 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    require 'config.php';
+    require 'config2.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
     $ret = mysqli_query($conn,$sql);
@@ -30,7 +30,9 @@
       $sql = "select * from post order by published_at";
       $ret = mysqli_query($conn,$sql);
       if(mysqli_num_rows($ret)>0){
+        $num = mysqli_num_rows($ret);
         while($row = mysqli_fetch_assoc($ret)){
+          echo"$num";
           $sql = "Select first_name from page_user where uid = {$row['user_id']}";
           $ret2 = mysqli_query($conn,$sql);
           $row2 = mysqli_fetch_assoc($ret2);
