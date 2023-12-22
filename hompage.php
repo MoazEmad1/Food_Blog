@@ -23,7 +23,7 @@
     if($_GET['comm']!=null || $_GET['like']!=NULL){
       echo"YES";
     }
-    require 'config2.php';
+    require 'config.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
     $ret = mysqli_query($conn,$sql);
