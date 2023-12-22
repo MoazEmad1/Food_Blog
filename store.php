@@ -5,6 +5,8 @@ include 'includes_and_requires/menu.php';
 include 'includes_and_requires/bootstrap.php';
 include 'styleTemp.php';
 
+echo "<div class='container mt-5'>";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedItemId = $_POST["item_id"];
     $selectedQuantity = $_POST["quantity"];
@@ -23,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn->query($addToCartSql);
         }
 
-
         echo "<p style='color: green;'>Item added to cart successfully!</p>";
     } else {
         header("Location: Dummy_login.php");
@@ -35,12 +36,15 @@ $sql = "SELECT * FROM grocery_item";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+    echo "<div class='row'>";
     while ($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<h2>" . $row["item_name"] . "</h2>";
-        echo "<p>Quantity: " . $row["quantity"] . "</p>";
-        echo "<p>Price: $" . $row["price"] . "</p>";
-        echo "<img src='Users/test/images/" . $row["img_url"] . "' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
+        echo "<div class='col-md-6'>";
+        echo "<div class='card mb-3' style='width: 18rem;'>";
+        echo "<img src='Users/test/images/" . $row["img_url"] . "' class='card-img-top mx-auto' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
+        echo "<div class='card-body'>";
+        echo "<h5 class='card-title'>" . $row["item_name"] . "</h5>";
+        echo "<p class='card-text'>Quantity: " . $row["quantity"] . "</p>";
+        echo "<p class='card-text'>Price: $" . $row["price"] . "</p>";
 
         if ($row["quantity"] > 0) {
             echo "<p style='color: green;'>In Stock</p>";
@@ -49,18 +53,21 @@ if ($result->num_rows > 0) {
             echo "<input type='hidden' name='item_id' value='" . $row["gid"] . "'>";
             echo "<label for='quantity'>Quantity:</label>";
             echo "<input type='number' name='quantity' value='1' min='1' max='" . $row["quantity"] . "' required>";
-            echo "<button type='submit'>Add to Cart</button>";
+            echo "<button type='submit' class='btn btn-success'>Add to Cart</button>";
             echo "</form>";
         } else {
             echo "<p style='color: red;'>Out of Stock</p>";
-            echo "<button disabled>Add to Cart</button>";
+            echo "<button disabled class='btn btn-secondary'>Add to Cart</button>";
         }
 
-        echo "</div>";
+        echo "</div></div></div>";
     }
+    echo "</div>";
 } else {
     echo "0 results";
 }
+
+echo "</div>";
 
 $conn->close();
 ?>
