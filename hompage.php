@@ -19,33 +19,10 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    session_start();
-    error_reporting(E_ERROR | E_PARSE);
-    if($_SESSION['succ']!=null){
-      if($_SESSION['comment']!=null){
-        echo"<div class='alert alert-success' role='alert'>
-        Comment Added!
-      </div>";
-      }else if($_SESSION['like']!=null){
-        echo"<div class='alert alert-success' role='alert'>
-        Like Added!
-      </div>";
-      }
-    }else if($_SESSION['failed']!=null){
-      if($_SESSION['comment']!=null){
-        echo"<div class='alert alert-danger' role='alert'>
-        Comment failed to add!
-      </div>";
-      }else if($_SESSION['like']!=null){
-        echo"<div class='alert alert-danger' role='alert'>
-        Like failed to add!
-      </div>";
-      }
+    //error_reporting(E_ERROR | E_PARSE);
+    if($_GET['comm']!=null || $_GET['like']!=NULL){
+      echo"YES";
     }
-    unset($_SESSION['failed']);
-    unset($_SESSION['succ']);
-    unset($_SESSION['like']);
-    unset($_SESSION['comment']);
     require 'config2.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
