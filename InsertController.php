@@ -1,6 +1,6 @@
 <?php
 
-require 'config.php';
+require 'config2.php';
 
 $user = $_GET['hide'];
 $ingredients = [];
@@ -12,10 +12,15 @@ $num = $_GET['numIng'];
 for($i=0;$i<$num;$i++){
     $ingredients[$i] = $_GET['item'.$i+1]; 
 }
-$sql1="
+$sql="
 insert into post(img_url,title,published_at,is_veg,caption,user_id)
-values('$imgURL','$title',now(),$veg,'$desc','$user')
+values('Users/test/images/$imgUrl','$title',now(),$veg,'$desc','$user')
 ";
-
+$ret = mysqli_query($conn,$sql);
+if($ret){
+    echo"Successful";
+}else{
+    echo"failed";
+}
 $conn -> close();
 ?>

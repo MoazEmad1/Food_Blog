@@ -30,9 +30,7 @@
       $sql = "select * from post order by published_at";
       $ret = mysqli_query($conn,$sql);
       if(mysqli_num_rows($ret)>0){
-        $num = mysqli_num_rows($ret);
         while($row = mysqli_fetch_assoc($ret)){
-          echo"$num";
           $sql = "Select first_name from page_user where uid = {$row['user_id']}";
           $ret2 = mysqli_query($conn,$sql);
           $row2 = mysqli_fetch_assoc($ret2);
@@ -59,9 +57,9 @@
     </div>";
 
       $sql = "Select * from postingredient where post_id = {$row['pid']}";
-        $ret = mysqli_query($conn,$sql);
+        $ret3 = mysqli_query($conn,$sql);
         echo"<div class = 'postIng' id = '{$row['pid']}'><p>INGREDIENTS:</p><ul>";
-        while($row3 = mysqli_fetch_assoc($ret)){
+        while($row3 = mysqli_fetch_assoc($ret3)){
           echo"<li>{$row3['ingredient_name']}</li>";
         }
         echo"</ul></div>";

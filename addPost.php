@@ -50,7 +50,7 @@
 			<label for="0">No</label>
 			<br>
 			<input type="submit" value="add post">
-			<input type="hidden" name="hide" value="3">
+			<input type="hidden" name="hide" value="1">
 			<input type="hidden" name="numIng"  id ="num" value="0">
 		</form>
 		<br>
