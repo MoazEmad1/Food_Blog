@@ -36,10 +36,14 @@ $sql = "SELECT * FROM grocery_item";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+    $count = 0;
     echo "<div class='row'>";
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='col-md-6'>";
-        echo "<div class='card mb-3' style='width: 18rem;'>";
+        if ($count % 3 == 0 && $count != 0) {
+            echo "</div><div class='row'>";
+        }
+        echo "<div class='col-md-4 mb-4'>";
+        echo "<div class='card' style='width: 18rem;'>";
         echo "<img src='Users/test/images/" . $row["img_url"] . "' class='card-img-top mx-auto' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
         echo "<div class='card-body'>";
         echo "<h5 class='card-title'>" . $row["item_name"] . "</h5>";
@@ -61,6 +65,7 @@ if ($result->num_rows > 0) {
         }
 
         echo "</div></div></div>";
+        $count++;
     }
     echo "</div>";
 } else {
