@@ -31,3 +31,4 @@ CREATE TABLE `cart` (
     `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`)
 );
+
