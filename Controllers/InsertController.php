@@ -1,6 +1,6 @@
 <?php
 
-require 'config2.php';
+require '../config2.php';
 
 $user = $_GET['hide'];
 $ingredients = [];

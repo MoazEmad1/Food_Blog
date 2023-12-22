@@ -19,10 +19,33 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    //error_reporting(E_ERROR | E_PARSE);
-    if($_GET['comm']!=null || $_GET['like']!=NULL){
-      echo"YES";
+    session_start();
+    error_reporting(E_ERROR | E_PARSE);
+    if($_SESSION['succ']!=null){
+      if($_SESSION['comment']!=null){
+        echo "<div class='alert alert-success' role='alert'>
+        Comment Added!
+      </div>";
+      } else if($_SESSION['like']!=null){
+        echo "<div class='alert alert-success' role='alert'>
+        Like Added!
+      </div>";
+      }
+    }else if($_SESSION['failed']!=null){
+      if($_SESSION['comment']==null || $_SESSION['comment']!=null){
+        echo "<div class='alert alert-danger' role='alert'>
+        Comment failed to add!
+      </div>";
+      } else if($_SESSION['like']!=null){
+        echo "<div class='alert alert-danger' role='alert'>
+        Like failed to add!
+      </div>";
+      }
     }
+    unset($_SESSION['failed']);
+    unset($_SESSION['succ']);
+    unset($_SESSION['comment']);
+    unset($_SESSION['like']);
     require 'config2.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
@@ -68,7 +91,21 @@
         <input type = 'hidden' name='user' value='1'>
         <input type = 'hidden' name='post' value='{$row['pid']}'>
         </form>
-      </div>
+      </div><div class='coms'><b><u><p>Comments:</p></u></b>";
+      $sql = "select first_name, content
+      from post_comment as pc
+      join page_user as pu on pc.uid = pu.uid
+      where pid = {$row['pid']}
+      ";
+      $retCom = mysqli_query($conn,$sql);
+      if(mysqli_num_rows($retCom)==0){
+        echo "<p>No comments...</p>";
+      }else{
+        while($coms = mysqli_fetch_assoc($retCom)){
+          echo "<p>{$coms['first_name']}: {$coms['content']}</p>";
+        }
+      }
+      echo"</div>
     </div>";
 
       $sql = "Select * from postingredient where post_id = {$row['pid']}";
