@@ -19,7 +19,7 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    require 'config2.php';
+    require 'config.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
     $ret = mysqli_query($conn,$sql);
