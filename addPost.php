@@ -15,18 +15,20 @@
 		input.setAttribute("type","text");
 		input.setAttribute("name","item"+count);
 		input.setAttribute("placeholder","Item"+count)
-		count++;
 		document.getElementById("ing").appendChild(input)
 		var br = document.createElement("br");
 		document.getElementById("ing").appendChild(br)
 		document.getElementById("ing").appendChild(br)
+		
+		document.getElementById("num").setAttribute("value",count);
+		count++;
 		}
 </script>
 <body>
 	<div id="addPostPage">
 		<div class="img_post"></div>
 	<div class="form">
-		<form action="">
+		<form action="InsertController.php">
 			<label for="ing">Ingredients</label>
 			<div id="ing"></div>
 			<label for="img">Add Image: </label>
@@ -44,10 +46,12 @@
 			<br>
 			<input type="radio" name="is_veg" value="1">
 			<label for="1">Yes</label>
-			<input type="radio" name="is_vage" value="0">
+			<input type="radio" name="is_veg" value="0">
 			<label for="0">No</label>
 			<br>
 			<input type="submit" value="add post">
+			<input type="hidden" name="hide" value="3">
+			<input type="hidden" name="numIng"  id ="num" value="0">
 		</form>
 		<br>
 		<button onclick="addInput()">Add An Ingredient</button>
