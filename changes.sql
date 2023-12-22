@@ -29,6 +29,6 @@ CREATE TABLE `cart` (
     `item_id` INT,
     `quantity` INT,
     `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`)
+    FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`),
+    FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`)
 );
-
