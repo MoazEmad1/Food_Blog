@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2023 at 05:45 PM
+-- Generation Time: Dec 22, 2023 at 06:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `proj2`
+-- Database: `project`
 --
 
 -- --------------------------------------------------------
@@ -128,18 +128,20 @@ CREATE TABLE `page_user` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `user_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `dob` date NOT NULL,
-  `last_seen` datetime NOT NULL
+  `last_seen` datetime NOT NULL,
+  `gender` bit(1) NOT NULL COMMENT 'male is zero female is one'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_user`
 --
 
-INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `pass`, `dob`, `last_seen`) VALUES
-(1, 'John', 'Doe', 'john_doe', 'password123', '1990-01-01', '2023-12-22 16:00:00'),
-(2, 'Jane', 'Doe', 'jane_doe', 'password456', '1995-05-15', '2023-12-22 16:05:00');
+INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `email`, `pass`, `dob`, `last_seen`, `gender`) VALUES
+(1, 'John', 'Doe', 'john_doe', '', 'password123', '1990-01-01', '2023-12-22 16:00:00', b'0'),
+(2, 'Jane', 'Doe', 'jane_doe', '', 'password456', '1995-05-15', '2023-12-22 16:05:00', b'0');
 
 -- --------------------------------------------------------
 
@@ -162,9 +164,9 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `caption`, `user_id`) VALUES
-(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 1),
-(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 1),
-(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 1);
+(1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 0),
+(2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 0),
+(3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 0);
 
 -- --------------------------------------------------------
 
@@ -293,8 +295,7 @@ ALTER TABLE `ban_table`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `fk_user_id` (`user_id`);
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `follower`
@@ -427,8 +428,7 @@ ALTER TABLE `ban_table`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`),
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`);
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`);
 
 --
 -- Constraints for table `follower`
