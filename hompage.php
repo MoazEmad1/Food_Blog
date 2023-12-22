@@ -19,7 +19,11 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    require 'config.php';
+    //error_reporting(E_ERROR | E_PARSE);
+    if($_GET['comm']!=null || $_GET['like']!=NULL){
+      echo"YES";
+    }
+    require 'config2.php';
     $follower_id = 1;
     $sql = "select * from follower where follower_id = 1";
     $ret = mysqli_query($conn,$sql);
@@ -31,7 +35,7 @@
       $ret = mysqli_query($conn,$sql);
       if(mysqli_num_rows($ret)>0){
         while($row = mysqli_fetch_assoc($ret)){
-          $sql = "Select first_name from page_user where uid = {$row['user_id']}";
+          $sql = "Select * from page_user where uid = {$row['user_id']}";
           $ret2 = mysqli_query($conn,$sql);
           $row2 = mysqli_fetch_assoc($ret2);
           $sql = "Select * from postingredient where post_id = {$row['pid']} limit 3";
@@ -51,8 +55,13 @@
         </ul>
         </p>
         <p>10k Likes</p>
-        <button type='button' class='btn btn-outline-success'>Like</button>
-        <button type='button' class='btn btn-outline-success'>Comments</button>
+        <form action='Controllers/LCController.php'>
+        <input type='submit' class='btn btn-outline-success' value='Like' name='like'>
+        <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
+        <input type='text' name='comment' >
+        <input type = 'hidden' name='user' value='{$row['user_id']}'>
+        <input type = 'hidden' name='post' value='{$row['pid']}'>
+        </form>
       </div>
     </div>";
 

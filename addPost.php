@@ -28,7 +28,7 @@
 	<div id="addPostPage">
 		<div class="img_post"></div>
 	<div class="form">
-		<form action="InsertController.php">
+		<form action="Controllers/InsertController.php">
 			<label for="ing">Ingredients</label>
 			<div id="ing"></div>
 			<label for="img">Add Image: </label>
@@ -50,7 +50,7 @@
 			<label for="0">No</label>
 			<br>
 			<input type="submit" value="add post">
-			<input type="hidden" name="hide" value="1">
+			<input type="hidden" name="hide" value="2">
 			<input type="hidden" name="numIng"  id ="num" value="0">
 		</form>
 		<br>
