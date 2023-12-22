@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 22, 2023 at 05:22 PM
+-- Generation Time: Dec 22, 2023 at 05:26 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -130,16 +130,17 @@ CREATE TABLE `page_user` (
   `user_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `dob` date NOT NULL,
-  `last_seen` datetime NOT NULL
+  `last_seen` datetime NOT NULL,
+  `gender` tinyint(1) NOT NULL COMMENT 'male is zero female is one'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_user`
 --
 
-INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `pass`, `dob`, `last_seen`) VALUES
-(1, 'John', 'Doe', 'john_doe', 'password123', '1990-01-01', '2023-12-22 16:00:00'),
-(2, 'Jane', 'Doe', 'jane_doe', 'password456', '1995-05-15', '2023-12-22 16:05:00');
+INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `pass`, `dob`, `last_seen`, `gender`) VALUES
+(1, 'John', 'Doe', 'john_doe', 'password123', '1990-01-01', '2023-12-22 16:00:00', 0),
+(2, 'Jane', 'Doe', 'jane_doe', 'password456', '1995-05-15', '2023-12-22 16:05:00', 0);
 
 -- --------------------------------------------------------
 
