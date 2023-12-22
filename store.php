@@ -1,9 +1,9 @@
 <?php
 session_start();
 include 'config.php';
-include 'styleTemp.php';
 include 'includes_and_requires/menu.php';
 include 'includes_and_requires/bootstrap.php';
+include 'styleTemp.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedItemId = $_POST["item_id"];
