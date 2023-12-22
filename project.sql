@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 22, 2023 at 05:18 PM
+-- Generation Time: Dec 22, 2023 at 05:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -293,7 +293,8 @@ ALTER TABLE `ban_table`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `fk_user_id` (`user_id`);
 
 --
 -- Indexes for table `follower`
@@ -426,7 +427,8 @@ ALTER TABLE `ban_table`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`);
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`),
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`);
 
 --
 -- Constraints for table `follower`
