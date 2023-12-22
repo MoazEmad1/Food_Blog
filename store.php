@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn->query($addToCartSql);
         }
 
-        $updateStockSql = "UPDATE grocery_item SET quantity = quantity - $selectedQuantity WHERE gid = $selectedItemId";
-        $conn->query($updateStockSql);
 
         echo "<p style='color: green;'>Item added to cart successfully!</p>";
     } else {
@@ -40,7 +38,7 @@ if ($result->num_rows > 0) {
         echo "<h2>" . $row["item_name"] . "</h2>";
         echo "<p>Quantity: " . $row["quantity"] . "</p>";
         echo "<p>Price: $" . $row["price"] . "</p>";
-        echo "<img src='" . $row["img_url"] . "' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
+        echo "<img src='Users/test/images/" . $row["img_url"] . "' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
 
         if ($row["quantity"] > 0) {
             echo "<p style='color: green;'>In Stock</p>";
