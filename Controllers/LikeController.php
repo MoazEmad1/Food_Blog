@@ -11,6 +11,7 @@ try{
     header("Location: ../hompage.php");
 }catch(Exception $e){
     $_SESSION['failed']=true;
+    echo"$e";
     header("Location: ../hompage.php");
 }
 $conn->close();

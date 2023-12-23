@@ -9,7 +9,6 @@
 body{
     font-family: sans-serif;
     background-color: #F5F5DC;
-    background-color: aqua;
 }
 .nb_custom{
     background-color: #FFB000;
@@ -131,3 +130,17 @@ input.cbtn{
 .coms{
     padding: 5px;
 }
+.postDesc{
+border: 2px double black;
+    width: 35%;
+    margin: 0px auto;
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    display: none;
+}
+.open{
+    width: 30%;
+    margin: auto auto;
+}
+

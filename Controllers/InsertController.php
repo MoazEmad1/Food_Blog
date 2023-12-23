@@ -1,7 +1,9 @@
 <?php
 
-require '../config2.php';
+use function PHPSTORM_META\type;
 
+require '../config2.php';
+session_start();
 $user = $_GET['hide'];
 $ingredients = [];
 $imgUrl = $_GET['img_url'];
@@ -16,10 +18,14 @@ $sql="
 insert into post(img_url,title,published_at,is_veg,caption,user_id)
 values('Users/test/images/$imgUrl','$title',now(),$veg,'$desc','$user')
 ";
-$ret = mysqli_query($conn,$sql);
-$sql = "select * from post order by published_at desc limit 1";
-if($ret){
-    echo"Successful<br>";
+if(!isset($ingredients[0])){
+    $_SESSION['empty']=true;
+    header("Location: ../addPost.php");
+}
+echo "$sql";
+try{
+    $ret = mysqli_query($conn,$sql);
+    $sql = "select * from post order by published_at desc limit 1";
     $ret = mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($ret);
     $num = $row['pid'];
@@ -28,16 +34,31 @@ if($ret){
         INSERT INTO postingredient
         VALUES ('$i',$num)
         ";
-        $ret2 = mysqli_query($conn,$sql);
-        if($ret2){
-            echo"added $i<br>";
-        }else{
-            echo"failed to add $i";
+        try{
+            $ret2 = mysqli_query($conn,$sql);
+        }catch(Exception $e){
+            $sql = "delete from postingredient where pid = $num";
+            try{
+                $ret3 = mysqli_query($conn,$sql);
+            }catch(Exception $e){
+                echo"$e";
+            }
+            $sql = "delete from post where pid = $num";
+            try{
+                $ret4 = mysqli_query($conn,$sql);
+                $_SESSION['failed']=true;
+                header("Locattion: ../addPost.php");
+            }catch(Exception $e){
+                echo"$e";
+            }
         }
     }
-}else{
-    echo"failed main Insert";
+    $_SESSION['succ'] = true;
+    header("Location: ../addPost.php");
+}catch(Exception $e){
+    $_SESSION['failed']=true;
+    header("Locattion: ../addPost.php");
 }
-mysqli_free_result($ret);
+//mysqli_free_result($ret);
 $conn -> close();
 ?>

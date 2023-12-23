@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include 'config2.php';
 include 'styleTemp.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['logged_in'] = true;
         $_SESSION['user_id'] = $user['uid'];
         $_SESSION['username'] = $user['user_name'];
+        $_SESSION['first_name'] = $user['first_name'];
 
         header("Location: hompage.php");
         exit();

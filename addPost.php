@@ -25,6 +25,25 @@
 		}
 </script>
 <body>
+	<?php
+	 error_reporting(E_ERROR | E_PARSE);
+	if($_SESSION['empty']!=null){
+		echo "<div class='alert alert-danger' role='alert'>
+        Please don't leave the ingredients section empty!
+      	</div>";
+	}else if($_SESSION['failed']!=null){
+		echo "<div class='alert alert-danger' role='alert'>
+        Comment failed to post!
+      	</div>";
+	}else if($_SESSION['succ']!=null){
+		echo "<div class='alert alert-success' role='alert'>
+        Post added Successfully!
+      	</div>";
+	}
+	unset($_SESSION['empty']);
+	unset($_SESSION['failed']);
+	unset($_SESSION['succ']);	
+	?>
 	<div id="addPostPage">
 		<div class="img_post"></div>
 	<div class="form">
@@ -36,21 +55,21 @@
 			<input type="file" name="img_url">
 			<br>
 			<label for="title">Title: </label>
-			<input type="text" name="title">
+			<input type="text" name="title" required>
 			<br>
 			<label for="desc">Description: </label>
 			<br>
-			<textarea name="desc" cols="50" rows="5"></textarea>
+			<textarea name="desc" cols="50" rows="5" required></textarea>
 			<br>
 			<label for="img">Vegeterian?: </label>
 			<br>
 			<input type="radio" name="is_veg" value="1">
 			<label for="1">Yes</label>
-			<input type="radio" name="is_veg" value="0">
+			<input type="radio" name="is_veg" value="0" checked>
 			<label for="0">No</label>
 			<br>
 			<input type="submit" value="add post">
-			<input type="hidden" name="hide" value="2">
+			<input type="hidden" name="hide" value=<?php echo"$_SESSION[user_id]";?> />
 			<input type="hidden" name="numIng"  id ="num" value="0">
 		</form>
 		<br>
