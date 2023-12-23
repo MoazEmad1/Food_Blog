@@ -28,16 +28,23 @@
     <?php include 'includes_and_requires/menu.php'?>
     <?php
     require 'config2.php';
-    $_SESSION['pageUser']=2;
+    $_SESSION['pageUser']=1;
     $sql =  "select first_name,last_name
     from page_user where uid = $_SESSION[pageUser]
     ";
     $ret = mysqli_query($conn,$sql);
     $name = mysqli_fetch_assoc($ret);
     echo"<h1>{$name['first_name']} {$name['last_name']}</h1>";
-    if($_SESSION['user_id']!=$_SESSION['pageUser']){
-        echo"<form action=''>
-        <input type='submit' value='follow'>
+    $sql = "select * from follower where follower_id = $_SESSION[user_id] and following_id = $_SESSION[pageUser]";
+    $ret = mysqli_query($conn,$sql);
+    if($_SESSION['user_id']!=$_SESSION['pageUser'] && mysqli_num_rows($ret)==0){
+        echo"<form action='Controllers/FollowController.php'>
+        <input type='submit' name='choice' value='follow' class='btn btn-outline-success'>
+        </form>
+        ";
+    }else if(mysqli_num_rows($ret)>0){
+      echo"<form action='Controllers/FollowController.php'>
+        <input type='submit' name='choice' value='unfollow' class='btn btn-outline-danger'>
         </form>
         ";
     }
@@ -53,13 +60,13 @@
       </div>";
       }
     }else if($_SESSION['failed']!=null){
-      if($_SESSION['comment']==null || $_SESSION['comment']!=null){
-        echo "<div class='alert alert-danger' role='alert'>
-        Comment failed to add!
-      </div>";
-      } else if($_SESSION['like']!=null){
+      if($_SESSION['like']!=null){
         echo "<div class='alert alert-danger' role='alert'>
         Like failed to add!
+      </div>";
+      } else if($_SESSION['comment']==null || $_SESSION['comment']!=null){
+        echo "<div class='alert alert-danger' role='alert'>
+        Comment failed to add!
       </div>";
       }
     }
@@ -103,6 +110,7 @@
         <input type='text' name='comment' >
         <input type = 'hidden' name='user' value='$_SESSION[user_id]'>
         <input type = 'hidden' name='post' value='{$row['pid']}'>
+        <input type = 'hidden' name='loc' value='user'>
         </form>
       </div>
       <button onclick='desc(1,\"post{$row['pid']}\")' class='btn btn-outline-success open'>Open Description</button>

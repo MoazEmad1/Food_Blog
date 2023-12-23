@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'config.php';
 include 'includes_and_requires/menu.php';
 include 'includes_and_requires/bootstrap.php';

@@ -9,7 +9,6 @@
 body{
     font-family: sans-serif;
     background-color: #F5F5DC;
-    background-color: black;
 }
 .nb_custom{
     background-color: #FFB000;
@@ -144,4 +143,7 @@ border: 2px double black;
     width: 30%;
     margin: auto auto;
 }
-
+input.btn{
+    background-color: white;
+    margin-left: 10px;
+}

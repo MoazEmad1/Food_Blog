@@ -39,13 +39,13 @@
       </div>";
       }
     }else if($_SESSION['failed']!=null){
-      if($_SESSION['comment']==null || $_SESSION['comment']!=null){
-        echo "<div class='alert alert-danger' role='alert'>
-        Comment failed to add!
-      </div>";
-      } else if($_SESSION['like']!=null){
+      if($_SESSION['like']!=null){
         echo "<div class='alert alert-danger' role='alert'>
         Like failed to add!
+      </div>";
+      } else if($_SESSION['comment']==null || $_SESSION['comment']!=null){
+        echo "<div class='alert alert-danger' role='alert'>
+        Comment failed to add!
       </div>";
       }
     }
@@ -54,7 +54,6 @@
     unset($_SESSION['comment']);
     unset($_SESSION['like']);
     require 'config2.php';
-    $follower_id = 1;
     $sql = "select * from follower where follower_id = $_SESSION[user_id]";
     $ret = mysqli_query($conn,$sql);
     if(mysqli_num_rows($ret)>0){
@@ -97,6 +96,7 @@
         <input type='text' name='comment' >
         <input type = 'hidden' name='user' value='$_SESSION[user_id]'>
         <input type = 'hidden' name='post' value='{$row['pid']}'>
+        <input type = 'hidden' name='loc' value='home'>
         </form>
       </div>
       <button onclick='desc(1,\"post{$row['pid']}\")' class='btn btn-outline-success open'>Open Description</button>

@@ -12,7 +12,6 @@
     <div class="container mt-5">
         <h2>Your Cart</h2>
         <?php
-        session_start();
         $user_id = $_SESSION['user_id'];
 
         require 'config.php';
