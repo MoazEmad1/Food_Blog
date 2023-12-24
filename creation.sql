@@ -11,7 +11,7 @@ CREATE TABLE `page_user` (
 );
 
 CREATE TABLE admin(
-    adminid int PRIMARY KEY AUTO_INCREMENT,
+    admin_id int PRIMARY KEY AUTO_INCREMENT,
     user_name varchar(255) NOT NULL,
     pass varchar(255) NOT NULL,
     type_of_authority varchar(255) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE ban_table(
     admin_id INT NOT NULL,
     banned_at DATETIME NOT NULL,
     CONSTRAINT uidFK FOREIGN KEY (uid) REFERENCES page_user(uid),
-    CONSTRAINT adIDFK FOREIGN KEY (admin_id) REFERENCES admin(adminid)
+    CONSTRAINT adIDFK FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
 );
 
 CREATE TABLE post_like(
@@ -88,7 +88,7 @@ CREATE TABLE item_confirmation(
     item_action varchar(255) not null,
     confirmaiton_time datetime not null,
     quantity_added int,
-    CONSTRAINT adIDFKConf FOREIGN KEY (admin_id) REFERENCES admin(adminid),
+    CONSTRAINT adIDFKConf FOREIGN KEY (admin_id) REFERENCES admin(admin_id),
     CONSTRAINT giidFK FOREIGN KEY (giid) REFERENCES grocery_item(gid)
 );
 

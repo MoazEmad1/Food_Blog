@@ -20,7 +20,7 @@ class BanRecord {
         return $this->uid;
     }
 
-     function getAdminId() {
+     function getadmin_id() {
         return $this->admin_id;
     }
 

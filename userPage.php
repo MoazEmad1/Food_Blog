@@ -27,7 +27,7 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
-    require 'config2.php';
+    require 'config.php';
     $_SESSION['pageUser']=1;
     $sql =  "select first_name,last_name
     from page_user where uid = $_SESSION[pageUser]

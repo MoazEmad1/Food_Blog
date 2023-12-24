@@ -15,7 +15,7 @@ class ItemConfirmation {
         $this->quantity_added = $quantity_added;
     }
 
-    function getAdminId() {
+    function getadmin_id() {
         return $this->admin_id;
     }
 

@@ -2,7 +2,7 @@
 
 use function PHPSTORM_META\type;
 
-require '../config2.php';
+require '../config.php';
 session_start();
 $user = $_GET['hide'];
 $ingredients = [];

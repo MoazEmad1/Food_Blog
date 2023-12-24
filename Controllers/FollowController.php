@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config2.php';
+require '../config.php';
 if($_GET['choice']=='follow'){
     $sql = "INSERT INTO follower (follower_id,following_id)
     values($_SESSION[user_id],$_SESSION[pageUser])";

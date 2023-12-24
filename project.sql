@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `proj2`
+-- Database: `project`
 --
 
 -- --------------------------------------------------------
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `adminid` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `type_of_authority` varchar(255) NOT NULL
@@ -290,7 +290,7 @@ INSERT INTO `receipt` (`receipt_id`, `uid`, `giid`, `total_price`, `quantity_bou
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`adminid`);
+  ADD PRIMARY KEY (`admin_id`);
 
 --
 -- Indexes for table `ban_table`
@@ -378,7 +378,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adminid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ban_table`
@@ -424,7 +424,7 @@ ALTER TABLE `receipt`
 -- Constraints for table `ban_table`
 --
 ALTER TABLE `ban_table`
-  ADD CONSTRAINT `adIDFK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`adminid`),
+  ADD CONSTRAINT `adIDFK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
   ADD CONSTRAINT `uidFK` FOREIGN KEY (`uid`) REFERENCES `page_user` (`uid`);
 
 --
@@ -444,7 +444,7 @@ ALTER TABLE `follower`
 -- Constraints for table `item_confirmation`
 --
 ALTER TABLE `item_confirmation`
-  ADD CONSTRAINT `adIDFKConf` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`adminid`),
+  ADD CONSTRAINT `adIDFKConf` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
   ADD CONSTRAINT `giidFK` FOREIGN KEY (`giid`) REFERENCES `grocery_item` (`gid`);
 
 --

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config2.php';
+require '../config.php';
 $sql = "insert into post_like(uid,pid,liked_at)
 values($_SESSION[user],$_SESSION[post],now())";
 $loc = "error.php";

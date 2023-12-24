@@ -8,7 +8,7 @@ function test_input($data) {
 ?>
 <?php
 session_start();
-require '../config2.php';
+require '../config.php';
 $user = $_SESSION['user'];
 $post = $_SESSION['post'];
 $comment = test_input($_SESSION['comment']);
