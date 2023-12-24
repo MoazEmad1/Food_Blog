@@ -31,7 +31,6 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         
 
-        <a href="logout.php" class="btn btn-danger">Logout</a>
     </div>
 </body>
 </html>

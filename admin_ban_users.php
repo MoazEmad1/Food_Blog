@@ -88,7 +88,6 @@ mysqli_close($conn);
 
             <button type="submit" name="unban_users" class="btn btn-success">Unban Selected Users</button>
         </form>
-        <a href="logout.php" class="btn btn-danger">Logout</a>
 
     </div>
 </body>

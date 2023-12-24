@@ -11,10 +11,8 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admin_id'])) {
 require 'includes_and_requires/bootstrap.php';
 require 'styleTemp.php';
 
-// Assuming user_id is passed through the URL, e.g., profile.php?user_id=123
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['user_id'];
 
-// Fetch user details from the database
 $sql = "SELECT * FROM page_user WHERE uid = $user_id";
 $result = mysqli_query($conn, $sql);
 
@@ -28,12 +26,9 @@ if (mysqli_num_rows($result) > 0) {
     die("User not found");
 }
 
-// Handle Ban Logic
-// Handle Ban Logic
 if (isset($_POST['ban_user'])) {
     $ban_user_id = $_POST['ban_user_id'];
     
-    // Check if the user is already banned
     $check_ban_sql = "SELECT COUNT(*) as count FROM ban_table WHERE uid = '$ban_user_id'";
     $check_result = mysqli_query($conn, $check_ban_sql);
     
@@ -42,7 +37,6 @@ if (isset($_POST['ban_user'])) {
         $banCount = $row['count'];
         
         if ($banCount == 0) {
-            // If the user is not already banned, ban them
             $ban_sql = "INSERT INTO ban_table (uid, admin_id, banned_at) VALUES ('$ban_user_id', '{$_SESSION['admin_id']}', NOW())";
             $ban_result = mysqli_query($conn, $ban_sql);
 
@@ -90,13 +84,12 @@ mysqli_close($conn);
                 <!-- Add more user details as needed -->
 
                 <!-- You can also add links to edit profile, change password, etc. -->
-                <?php if ($_SESSION['user_id'] == $user['uid']) : ?>
-                    <a href="edit_profile.php">Edit Profile</a>
+                <?php if ($_SESSION['user_id'] == $user['uid'] || isset($_SESSION['admin_id'])) : ?>
+                    <a href="edit_profile.php?user_id=<?php echo $user['uid']; ?>">Edit Profile</a>
                     <a href="change_password.php">Change Password</a>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] == 1) : ?>
-                    <!-- Add a form to ban the user -->
                     <form action="" method="post">
                         <input type="hidden" name="ban_user_id" value="<?php echo $user['uid']; ?>">
                         <button type="submit" name="ban_user" class="btn btn-danger">Ban User</button>
