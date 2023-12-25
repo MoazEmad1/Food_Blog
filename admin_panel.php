@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE); 
 session_start();
 include 'config.php';
 if (!isset($_SESSION['admin_id'])) {

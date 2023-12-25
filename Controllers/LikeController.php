@@ -7,7 +7,7 @@ $loc = "error.php";
 if($_SESSION['loc']=='home'){
     $loc = "../hompage.php";
 }else if ($_SESSION['loc']=='user'){
-    $loc = "../userPage.php";
+    $loc = "../profile.php";
 }
 try{
     $ret = mysqli_query($conn,$sql);

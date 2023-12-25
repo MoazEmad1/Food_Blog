@@ -1,11 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
-    header("Location: Dummy_login.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,6 +29,10 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
 <body>
     <?php include 'includes_and_requires/menu.php' ?>
     <?php
+    if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+        header("Location: Dummy_login.php");
+        exit();
+    }
     error_reporting(E_ERROR | E_PARSE);
     if ($_SESSION['succ'] != null) {
         if ($_SESSION['comment'] != null) {
@@ -89,7 +85,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
           <div class='card'>
       <div class='custom_image' style='background-image:url({$row['img_url']})'></div>
       <div class='card-body'>
-      <h5 class='card-title'>{$row['title']} <a href='profile.php?user_id={$row2['uid']}'>({$row2['first_name']})</a></h5>
+      <h5 class='card-title'>{$row['title']} <a href='Controllers/pfpPagelink.php?user_id={$row2['uid']}'>({$row2['first_name']})</a></h5>
       <p class='card-text' onmouseover='onHover({$row['pid']})' onmouseout='outHover({$row['pid']})'>
           Ingredients: <ul>";
                 while ($row3 = mysqli_fetch_assoc($ret3)) {
@@ -164,7 +160,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
         <div class='card'>
     <div class='custom_image' style='background-image:url({$row['img_url']})'></div>
     <div class='card-body'>
-    <h5 class='card-title'>{$row['title']} <a href='profile.php?user_id={$row2['uid']}'>({$row2['first_name']})</a></h5>
+    <h5 class='card-title'>{$row['title']} <a href='Controllers/pfpPagelink.php?user_id={$row2['uid']}'>({$row2['first_name']})</a></h5>
     <p class='card-text' onmouseover='onHover({$row['pid']})' onmouseout='outHover({$row['pid']})'>
         Ingredients: <ul>";
               while ($row3 = mysqli_fetch_assoc($ret3)) {

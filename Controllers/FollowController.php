@@ -11,10 +11,10 @@ $_SESSION['follower']=true;
 try{
     $ret = mysqli_query($conn,$sql);
     $_SESSION['succ'] = true;
-    header("Location: ../userPage.php");
+    header("Location: ../profile.php");
 }catch(Exception $e){
     $_SESSION['failed']=true;
-    header("Location: ../userPage.php");
+    header("Location: ../profile.php");
 }
 $conn->close();
 ?>

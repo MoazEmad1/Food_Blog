@@ -19,7 +19,7 @@ values ($user,$post,now(),'$comment');
 if($_SESSION['loc']=='home'){
     $loc = "../hompage.php";
 }else if ($_SESSION['loc']=='user'){
-    $loc = "../userPage.php";
+    $loc = "../profile.php";
 }
 //empty comment validation
 if($comment == ""){
