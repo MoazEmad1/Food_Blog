@@ -32,3 +32,15 @@ CREATE TABLE `cart` (
     FOREIGN KEY (`item_id`) REFERENCES `grocery_item` (`gid`),
     FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`)
 );
+
+
+/*26/12/2023 Ali Messages*/
+CREATE TABLE message(
+    mid int AUTO_INCREMENT primary key,
+    personA int not null,
+    personB int not null,
+    mesageContent varchar(2048) not null,
+    sent_at datetime not null,
+    constraint PAFK foreign key (personA) REFERENCES page_user (uid),
+    constraint PBFK foreign key (personB) REFERENCES page_user (uid)
+);
