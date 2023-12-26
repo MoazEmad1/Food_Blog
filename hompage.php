@@ -33,7 +33,15 @@
         header("Location: Dummy_login.php");
         exit();
     }
-    error_reporting(E_ERROR | E_PARSE);
+    require 'config.php';
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT * FROM ban_table WHERE uid = $user_id";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        header("Location: Dummy_login.php");
+        exit();
+    }
     if ($_SESSION['succ'] != null) {
         if ($_SESSION['comment'] != null) {
             echo "<div class='alert alert-success' role='alert'>
