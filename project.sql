@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 26, 2023 at 02:12 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Dec 26, 2023 at 04:16 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -109,7 +109,7 @@ CREATE TABLE `grocery_item` (
 
 INSERT INTO `grocery_item` (`gid`, `quantity`, `price`, `item_name`, `img_url`, `is_veg`) VALUES
 (1, 0, 2, 'Apple', 'apple.jpg', 1),
-(2, 10, 3, 'Banana', 'banana.jpg', 1),
+(2, 3, 3, 'Banana', 'banana.jpg', 1),
 (3, 20, 1, 'Carrot', 'carrot.jpg', 1);
 
 -- --------------------------------------------------------
@@ -139,6 +139,41 @@ CREATE TABLE `message` (
   `mesageContent` varchar(2048) NOT NULL,
   `sent_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`mid`, `personA`, `personB`, `mesageContent`, `sent_at`) VALUES
+(1, 1, 2, 'hello', '2023-12-26 17:04:07'),
+(2, 2, 1, 'hey\r\n', '2023-12-26 17:05:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(20) DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `address_id`, `total_amount`, `payment_method`, `order_date`, `status`) VALUES
+(1, 2, 1, 5.00, 'cod', '2023-12-26 15:07:48', 'Pending'),
+(2, 2, 1, 5.00, 'cod', '2023-12-26 15:10:19', 'Pending'),
+(3, 2, 1, 40.00, 'cod', '2023-12-26 15:11:17', 'Pending'),
+(4, 2, 1, 15.00, 'cod', '2023-12-26 15:13:14', 'Pending'),
+(5, 2, 1, 21.00, 'cod', '2023-12-26 15:14:31', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -329,6 +364,33 @@ INSERT INTO `receipt` (`receipt_id`, `uid`, `giid`, `total_price`, `quantity_bou
 (1, 1, 1, 20, 5, 10),
 (2, 2, 2, 15, 3, 9);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_address`
+--
+
+CREATE TABLE `user_address` (
+  `address_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `phone_prefix` varchar(10) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `additional_phone` varchar(20) DEFAULT NULL,
+  `address` varchar(255) NOT NULL,
+  `additional_info` varchar(255) DEFAULT NULL,
+  `city` varchar(255) NOT NULL,
+  `set_default` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_address`
+--
+
+INSERT INTO `user_address` (`address_id`, `user_id`, `first_name`, `last_name`, `phone_prefix`, `phone_number`, `additional_phone`, `address`, `additional_info`, `city`, `set_default`) VALUES
+(1, 2, 'Moaz', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -383,6 +445,14 @@ ALTER TABLE `message`
   ADD KEY `PBFK` (`personB`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `address_id` (`address_id`);
+
+--
 -- Indexes for table `page_user`
 --
 ALTER TABLE `page_user`
@@ -426,6 +496,13 @@ ALTER TABLE `receipt`
   ADD KEY `giidFKRec` (`giid`);
 
 --
+-- Indexes for table `user_address`
+--
+ALTER TABLE `user_address`
+  ADD PRIMARY KEY (`address_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -445,7 +522,7 @@ ALTER TABLE `ban_table`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `grocery_item`
@@ -457,7 +534,13 @@ ALTER TABLE `grocery_item`
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `page_user`
@@ -476,6 +559,12 @@ ALTER TABLE `post`
 --
 ALTER TABLE `receipt`
   MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `user_address`
+--
+ALTER TABLE `user_address`
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -516,6 +605,13 @@ ALTER TABLE `message`
   ADD CONSTRAINT `PBFK` FOREIGN KEY (`personB`) REFERENCES `page_user` (`uid`);
 
 --
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `user_address` (`address_id`);
+
+--
 -- Constraints for table `postingredient`
 --
 ALTER TABLE `postingredient`
@@ -541,6 +637,12 @@ ALTER TABLE `post_save`
 ALTER TABLE `receipt`
   ADD CONSTRAINT `giidFKRec` FOREIGN KEY (`giid`) REFERENCES `grocery_item` (`gid`),
   ADD CONSTRAINT `userIDFKRec` FOREIGN KEY (`uid`) REFERENCES `page_user` (`uid`);
+
+--
+-- Constraints for table `user_address`
+--
+ALTER TABLE `user_address`
+  ADD CONSTRAINT `user_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

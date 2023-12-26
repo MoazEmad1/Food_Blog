@@ -46,7 +46,6 @@ if ($result->num_rows > 0) {
         echo "<img src='Users/test/images/" . $row["img_url"] . "' class='card-img-top mx-auto' alt='" . $row["item_name"] . "' style='max-width: 200px;'>";
         echo "<div class='card-body'>";
         echo "<h5 class='card-title'>" . $row["item_name"] . "</h5>";
-        echo "<p class='card-text'>Quantity: " . $row["quantity"] . "</p>";
         echo "<p class='card-text'>Price: $" . $row["price"] . "</p>";
 
         if ($row["quantity"] > 0) {

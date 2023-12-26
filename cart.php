@@ -40,10 +40,10 @@
                     $update_sql = "UPDATE cart SET quantity = $new_quantity WHERE cart_id = $cart_id AND user_id = $user_id";
                     mysqli_query($conn, $update_sql);
                 }
+
+                header("Location: payment.php");
+                exit();
             }
-            
-            header("Location: payment.php");
-            exit();
         }
 
         $sql = "SELECT cart.cart_id, grocery_item.item_name, cart.quantity, grocery_item.price, grocery_item.quantity AS stock
@@ -55,8 +55,10 @@
 
         if ($result && mysqli_num_rows($result) > 0) {
             echo "<form method='post' action='" . $_SERVER["PHP_SELF"] . "'>";
+            $_total = 0;
             while ($row = mysqli_fetch_assoc($result)) {
                 if ($row['quantity'] > 0) {
+                    $_total += $row['quantity'] * $row['price'];
                     echo "
                     <div class='card mb-3'>
                         <div class='card-body'>
@@ -69,6 +71,8 @@
                     </div>";
                 }
             }
+            $_SESSION['total_amount'] = $_total;
+            echo "<p>Total: $$_total</p>";
             echo "<button type='submit' class='btn btn-success' name='update_cart'>Proceed to Payment</button>";
             echo "</form>";
         } else {
