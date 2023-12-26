@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2023 at 10:31 PM
+-- Generation Time: Dec 26, 2023 at 02:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,11 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `admin_id` int(11) NOT NULL,
+  `adminid` int(11) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `type_of_authority` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`adminid`, `user_name`, `pass`, `type_of_authority`) VALUES
+(1, 'zeyad', 'zeyad', 'social'),
+(2, 'moaz', 'moaz', 'grocery');
 
 -- --------------------------------------------------------
 
@@ -66,7 +74,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`cart_id`, `user_id`, `item_id`, `quantity`, `timestamp`) VALUES
-(1, 1, 2, 16, '2023-12-22 16:03:31');
+(1, 1, 2, 10, '2023-12-22 16:03:31'),
+(2, 1, 3, 20, '2023-12-26 00:29:55');
 
 -- --------------------------------------------------------
 
@@ -120,6 +129,20 @@ CREATE TABLE `item_confirmation` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `message`
+--
+
+CREATE TABLE `message` (
+  `mid` int(11) NOT NULL,
+  `personA` int(11) NOT NULL,
+  `personB` int(11) NOT NULL,
+  `mesageContent` varchar(2048) NOT NULL,
+  `sent_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `page_user`
 --
 
@@ -130,18 +153,26 @@ CREATE TABLE `page_user` (
   `user_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
-  `dob` date NOT NULL,
-  `last_seen` datetime NOT NULL,
-  `gender` bit(1) NOT NULL COMMENT 'male is zero female is one'
+  `dob` date DEFAULT '2003-10-28',
+  `last_seen` datetime DEFAULT current_timestamp(),
+  `gender` bit(1) DEFAULT b'0' COMMENT 'male is zero female is one',
+  `pic_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_user`
 --
 
-INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `email`, `pass`, `dob`, `last_seen`, `gender`) VALUES
-(1, 'John', 'Doe', 'john_doe', '', 'password123', '1990-01-01', '2023-12-22 16:00:00', b'0'),
-(2, 'Jane', 'Doe', 'jane_doe', '', 'password456', '1995-05-15', '2023-12-22 16:05:00', b'0');
+INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `email`, `pass`, `dob`, `last_seen`, `gender`, `pic_url`) VALUES
+(1, 'John', 'Doe', 'john_doe', 'john@john', 'pass', '1990-01-01', '2023-12-22 16:00:00', b'0', ''),
+(2, 'Jane', 'Doe', 'jane_doe', 'jane@jane', 'pass', '1995-05-15', '2023-12-22 16:05:00', b'0', ''),
+(3, 'zeyad', 'mahmoud', '@zeyad_mahmoud', 'zeyad@gmail.com', 'pass', '2003-10-28', '2023-12-23 04:22:04', b'0', ''),
+(12, 'zeyad', 'zeyad', '@zeyad_zeyad', 'zeyad@z', 'pass', '2003-10-28', '2023-12-23 04:55:40', b'0', ''),
+(16, 'zeyadsf', 'zedsf', '@zeyadsf_zedsf', 'zsdf@asfd', 'pass', '2003-10-28', '2023-12-23 05:16:27', b'0', ''),
+(19, 'testtt', 'testtt', '@testtt_testtt', 'testt@agfd', 'pass', '2003-10-28', '2023-12-23 14:52:25', b'0', ''),
+(22, 'zeyada', 'zeyad', '@zeyada_zeyad', 'zeyad@adfasf', 'pass', '2003-10-28', '2023-12-23 15:02:11', b'0', ''),
+(23, 'ali', 'mohamed', '@ali_mohamed', 'ali@mohamed', 'pass', '2003-10-28', '2023-12-23 15:41:58', b'0', ''),
+(26, 'johny', 'johny', '@johny_johny', 'johny@gmail.com', 'pass', '2003-10-28', '2023-12-23 16:21:32', b'0', '');
 
 -- --------------------------------------------------------
 
@@ -152,7 +183,7 @@ INSERT INTO `page_user` (`uid`, `first_name`, `last_name`, `user_name`, `email`,
 CREATE TABLE `post` (
   `pid` int(11) NOT NULL,
   `img_url` varchar(2048) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `published_at` datetime NOT NULL,
   `is_veg` int(1) NOT NULL,
   `caption` varchar(2048) NOT NULL,
@@ -167,7 +198,10 @@ INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `captio
 (1, 'post1.jpg', 'Delicious Salad', '2023-12-22 16:10:00', 1, 'Enjoy this fresh salad!', 1),
 (2, 'post2.jpg', 'Fruit Smoothie', '2023-12-22 16:15:00', 1, 'Refreshing smoothie recipe.', 1),
 (3, 'post3.jpg', 'Vegetarian Pizza', '2023-12-22 16:20:00', 1, 'Homemade pizza with veggies.', 1),
-(4, 'Users/test/images/apple.jpg', 'test', '2023-12-22 20:32:47', 1, 'delicious', 2);
+(4, 'Users/test/images/apple.jpg', 'test', '2023-12-22 20:32:47', 1, 'delicious', 2),
+(5, 'Users/test/images/palette.png', 'chicken tikka', '2023-12-26 02:27:23', 0, 'chikcalkdjfalksnvla;kjoiwrj', 1),
+(6, 'assets/img/posts/', 'food recipe', '2023-12-26 04:29:50', 0, 'config', 1),
+(7, 'assets/img/posts/logo3.jpeg', 'food recipe', '2023-12-26 04:30:49', 0, 'leeeeh', 1);
 
 -- --------------------------------------------------------
 
@@ -177,18 +211,23 @@ INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `captio
 
 CREATE TABLE `postingredient` (
   `ingredient_name` varchar(255) NOT NULL,
-  `post_id` int(11) NOT NULL
+  `post_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `postingredient`
 --
 
-INSERT INTO `postingredient` (`ingredient_name`, `post_id`) VALUES
-('Banana', 2),
-('Lettuce', 1),
-('Tomato', 3),
-('yum', 4);
+INSERT INTO `postingredient` (`ingredient_name`, `post_id`, `quantity`) VALUES
+('Banana', 2, NULL),
+('chicken', 5, NULL),
+('kaffo', 5, NULL),
+('Lettuce', 1, NULL),
+('Tomato', 3, NULL),
+('whatever', 6, NULL),
+('whatever', 7, NULL),
+('yum', 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -212,7 +251,14 @@ INSERT INTO `post_comment` (`uid`, `pid`, `commented_at`, `content`) VALUES
 (2, 2, '2023-12-22 16:30:00', 'Great recipe!'),
 (2, 2, '2023-12-22 22:47:54', 'af'),
 (2, 1, '2023-12-22 23:00:30', 'lll'),
-(2, 1, '2023-12-22 23:00:52', 'primary 2');
+(2, 1, '2023-12-22 23:00:52', 'primary 2'),
+(1, 1, '2023-12-22 16:25:00', 'Looks delicious!'),
+(2, 2, '2023-12-22 16:30:00', 'Great recipe!'),
+(2, 2, '2023-12-22 22:47:54', 'af'),
+(2, 1, '2023-12-22 23:00:30', 'lll'),
+(2, 1, '2023-12-22 23:00:52', 'primary 2'),
+(1, 5, '2023-12-26 02:27:52', 'Hello there how you doing'),
+(1, 5, '2023-12-26 02:28:07', 'What time is it now?');
 
 -- --------------------------------------------------------
 
@@ -234,6 +280,7 @@ INSERT INTO `post_like` (`uid`, `pid`, `liked_at`) VALUES
 (1, 1, '2023-12-22 23:26:52'),
 (1, 2, '2023-12-22 23:26:55'),
 (1, 3, '2023-12-22 23:28:31'),
+(1, 5, '2023-12-26 02:27:41'),
 (2, 1, '2023-12-22 22:32:51'),
 (2, 2, '2023-12-22 22:34:43'),
 (2, 3, '2023-12-22 22:35:29'),
@@ -290,7 +337,7 @@ INSERT INTO `receipt` (`receipt_id`, `uid`, `giid`, `total_price`, `quantity_bou
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`admin_id`);
+  ADD PRIMARY KEY (`adminid`);
 
 --
 -- Indexes for table `ban_table`
@@ -328,12 +375,20 @@ ALTER TABLE `item_confirmation`
   ADD KEY `giidFK` (`giid`);
 
 --
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`mid`),
+  ADD KEY `PAFK` (`personA`),
+  ADD KEY `PBFK` (`personB`);
+
+--
 -- Indexes for table `page_user`
 --
 ALTER TABLE `page_user`
   ADD PRIMARY KEY (`uid`),
   ADD UNIQUE KEY `user_name` (`user_name`),
-  ADD UNIQUE KEY `pass` (`pass`);
+  ADD UNIQUE KEY `email` (`email`) USING BTREE;
 
 --
 -- Indexes for table `post`
@@ -378,7 +433,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `adminid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ban_table`
@@ -390,7 +445,7 @@ ALTER TABLE `ban_table`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `grocery_item`
@@ -399,16 +454,22 @@ ALTER TABLE `grocery_item`
   MODIFY `gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+  MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `page_user`
 --
 ALTER TABLE `page_user`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -424,7 +485,7 @@ ALTER TABLE `receipt`
 -- Constraints for table `ban_table`
 --
 ALTER TABLE `ban_table`
-  ADD CONSTRAINT `adIDFK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
+  ADD CONSTRAINT `adIDFK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`adminid`),
   ADD CONSTRAINT `uidFK` FOREIGN KEY (`uid`) REFERENCES `page_user` (`uid`);
 
 --
@@ -444,8 +505,15 @@ ALTER TABLE `follower`
 -- Constraints for table `item_confirmation`
 --
 ALTER TABLE `item_confirmation`
-  ADD CONSTRAINT `adIDFKConf` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
+  ADD CONSTRAINT `adIDFKConf` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`adminid`),
   ADD CONSTRAINT `giidFK` FOREIGN KEY (`giid`) REFERENCES `grocery_item` (`gid`);
+
+--
+-- Constraints for table `message`
+--
+ALTER TABLE `message`
+  ADD CONSTRAINT `PAFK` FOREIGN KEY (`personA`) REFERENCES `page_user` (`uid`),
+  ADD CONSTRAINT `PBFK` FOREIGN KEY (`personB`) REFERENCES `page_user` (`uid`);
 
 --
 -- Constraints for table `postingredient`
