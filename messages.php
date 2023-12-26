@@ -20,7 +20,10 @@
     $user_id = $_SESSION['user_id'];
     $sql = "SELECT * FROM ban_table WHERE uid = $user_id";
     $result = mysqli_query($conn, $sql);
-    $receiver_id = 2;//$_GET['receiver']
+    if($_GET['receiver']==null)
+        $receiver_id = $_SESSION['receiver'];
+    else
+        $receiver_id = $_GET['receiver'];
     if (mysqli_num_rows($result) > 0) {
         header("Location: Dummy_login.php");
         exit();

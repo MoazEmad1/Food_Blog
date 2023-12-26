@@ -12,7 +12,7 @@
     <p>
         Enter user name to start messaging:
     </p>
-    <form action="">
+    <form action="Controllers/searchMController.php">
         <input type="text" name="user_name" >
         <input type="submit" value="Search">
     </form>

@@ -16,9 +16,7 @@
                 <a class="nav-link" href="store.php">Store</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Message
-                </a>
+                <a class="nav-link" href="searchMessages.php">Message</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#"><?php session_start(); echo "$_SESSION[first_name]";?></a>
