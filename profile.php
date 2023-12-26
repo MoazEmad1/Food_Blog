@@ -103,10 +103,9 @@ mysqli_free_result($result);
                 <!-- You can also add links to edit profile, change password, etc. -->
                 <?php if ($_SESSION['user_id'] == $user['uid'] || isset($_SESSION['admin_id'])) : ?>
                     <a href="edit_profile.php?user_id=<?php echo $user['uid']; ?>">Edit Profile</a>
-                    <a href="change_password.php">Change Password</a>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] == 1) : ?>
+                <?php if (isset($_SESSION['admin_id'])) : ?>
                     <form action="" method="post">
                         <input type="hidden" name="ban_user_id" value="<?php echo $user['uid']; ?>">
                         <button type="submit" name="ban_user" class="btn btn-danger">Ban User</button>
@@ -138,12 +137,19 @@ mysqli_free_result($result);
         echo "<div class='alert alert-success' role='alert'>
         Comment Added!
       </div>";
-      } else if($_SESSION['like']!=null){
+      } else if ($_SESSION['like'] != null) {
+        if($_SESSION['like'] == 'Like'){
         echo "<div class='alert alert-success' role='alert'>
-        Like Added!
-      </div>";
-      }
-    }else if($_SESSION['failed']!=null){
+    Like Added!
+  </div>";
+    }
+    else if($_SESSION['like'] == 'Unlike'){
+        echo "<div class='alert alert-success' role='alert'>
+    Like Removed!
+    </div>";
+        }
+        }
+}else if($_SESSION['failed']!=null){
       if($_SESSION['like']!=null){
         echo "<div class='alert alert-danger' role='alert'>
         Like failed to add!
@@ -184,12 +190,14 @@ mysqli_free_result($result);
         <p>";
         $sql = "select count(pid) as count from post_like
         where pid = {$row['pid']}";
-        $ret4 = mysqli_query($conn,$sql);
-        $count = mysqli_fetch_assoc($ret4);
-        echo "{$count['count']}";
-         echo" Likes</p>
-        <form action='Controllers/LCController.php'>
-        <input type='submit' class='btn btn-outline-success' value='Like' name='like'>
+        $ret4 = mysqli_query($conn, $sql);
+      $count = mysqli_fetch_assoc($ret4);
+      $sql = "SELECT * FROM post_like WHERE pid = {$row['pid']} AND uid = {$_SESSION['user_id']}";
+      $ret5 = mysqli_query($conn, $sql);
+      echo "{$count['count']}";
+      echo " Likes</p>
+<form action='Controllers/LCController.php'>
+<input type='submit' class='btn btn-outline-success' value='" . (mysqli_num_rows($ret5)>0 ? 'Unlike' : 'Like') . "' name='like'>
         <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
         <input type='text' name='comment' >
         <input type = 'hidden' name='user' value='$_SESSION[user_id]'>

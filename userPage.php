@@ -54,12 +54,19 @@
         echo "<div class='alert alert-success' role='alert'>
         Comment Added!
       </div>";
-      } else if($_SESSION['like']!=null){
+      } else if ($_SESSION['like'] != null) {
+        if($_SESSION['like'] == 'Like'){
         echo "<div class='alert alert-success' role='alert'>
-        Like Added!
-      </div>";
-      }
-    }else if($_SESSION['failed']!=null){
+    Like Added!
+  </div>";
+    }
+    else if($_SESSION['like'] == 'Unlike'){
+        echo "<div class='alert alert-success' role='alert'>
+    Like Removed!
+    </div>";
+        }
+        }
+}else if($_SESSION['failed']!=null){
       if($_SESSION['like']!=null){
         echo "<div class='alert alert-danger' role='alert'>
         Like failed to add!
@@ -100,12 +107,14 @@
         <p>";
         $sql = "select count(pid) as count from post_like
         where pid = {$row['pid']}";
-        $ret4 = mysqli_query($conn,$sql);
-        $count = mysqli_fetch_assoc($ret4);
-        echo "{$count['count']}";
-         echo" Likes</p>
-        <form action='Controllers/LCController.php'>
-        <input type='submit' class='btn btn-outline-success' value='Like' name='like'>
+        $ret4 = mysqli_query($conn, $sql);
+      $count = mysqli_fetch_assoc($ret4);
+      $sql = "SELECT * FROM post_like WHERE pid = {$row['pid']} AND uid = {$_SESSION['user_id']}";
+      $ret5 = mysqli_query($conn, $sql);
+      echo "{$count['count']}";
+      echo " Likes</p>
+<form action='Controllers/LCController.php'>
+<input type='submit' class='btn btn-outline-success' value='" . (mysqli_num_rows($ret5)>0 ? 'Unlike' : 'Like') . "' name='like'>
         <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
         <input type='text' name='comment' >
         <input type = 'hidden' name='user' value='$_SESSION[user_id]'>

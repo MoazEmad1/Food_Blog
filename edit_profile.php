@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admin_id'])) {
     header("Location: Dummy_login.php");
     exit();
 }
+if(($_SESSION['user_id']!=$_GET['user_id'])&&!isset($_SESSION['admin_id'])){
+    header("Location: no_access.php");
+    exit();
+}
 
 require 'includes_and_requires/bootstrap.php';
 require 'styleTemp.php';

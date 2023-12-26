@@ -7,7 +7,11 @@ $_SESSION['loc'] = $_GET['loc'];
 echo"$_GET[comment]";
 if ($_GET['like']!=NULL){
     $_SESSION['like']=$_GET['like'];
-    header('Location: LikeController.php');
+    if ($_GET['like'] === 'Like') {
+        header('Location: LikeController.php');
+    } elseif ($_GET['like'] === 'Unlike') {
+        header('Location: UnlikeController.php');
+    }
 }else if($_GET['comm']!=NULL){
     $_SESSION['comment']=$_GET['comment'];
     header("Location: CommentController.php");
