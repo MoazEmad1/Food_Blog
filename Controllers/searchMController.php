@@ -4,7 +4,9 @@ require '../config.php';
 $username = $_GET['user_name'];
 $loc = "error.php";
 $sql = "
-    select uid from 
+    select uid 
+    from page_user 
+    where user_name = '$user_name' 
 ";
 try{
     $ret = mysqli_query($conn,$sql);
