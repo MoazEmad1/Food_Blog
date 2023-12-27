@@ -35,6 +35,7 @@
     }
     require 'config.php';
     $user_id = $_SESSION['user_id'];
+    if(isset($_SESSION['user_id'])){
     $sql = "SELECT * FROM ban_table WHERE uid = $user_id";
     $result = mysqli_query($conn, $sql);
 
@@ -42,6 +43,7 @@
         header("Location: Dummy_login.php");
         exit();
     }
+}
     if ($_SESSION['succ'] != null) {
         if ($_SESSION['comment'] != null) {
             echo "<div class='alert alert-success' role='alert'>
@@ -88,7 +90,7 @@
     }
         
     $ret = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($ret) > 0) {
+    if (mysqli_num_rows($ret) > 0 && !isset($_SESSION['admin_id'])) {
         $sql = "select * from post 
       join page_user as pu on user_id = pu.uid
       join follower as f on pu.uid = f.following_id
@@ -202,9 +204,6 @@
       echo "{$count['count']}";
       echo " Likes</p>
 <form action='Controllers/LCController.php'>
-<input type='submit' class='btn btn-outline-success' value='" . (mysqli_num_rows($ret5)>0 ? 'Unlike' : 'Like') . "' name='like'>
-      <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
-      <input type='text' name='comment' >
       <input type = 'hidden' name='user' value='$_SESSION[user_id]'>
       <input type = 'hidden' name='post' value='{$row['pid']}'>
       <input type = 'hidden' name='loc' value='home'>
