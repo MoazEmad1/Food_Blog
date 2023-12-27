@@ -16,5 +16,13 @@
         <input type="text" name="user_name" >
         <input type="submit" value="Search">
     </form>
+    <?php
+    if(isset($_SESSION['failed'])){
+        echo "<div class='alert alert-danger' role='alert'>
+                User not found!
+              </div>";
+    }
+    unset($_SESSION['failed']);
+  ?>
 </body>
 </html>
