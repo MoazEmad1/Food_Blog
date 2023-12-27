@@ -12,7 +12,10 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admin_id'])) {
 require 'includes_and_requires/bootstrap.php';
 require 'styleTemp.php';
 
-$user_id = $_SESSION['link'];
+if(!isset($_GET['user_id']))
+  $user_id = $_SESSION['link'];
+else
+  $user_id = $_GET['user_id'];
 
 $sql = "SELECT * FROM page_user WHERE uid = $user_id";
 $result = mysqli_query($conn, $sql);
@@ -117,7 +120,7 @@ mysqli_free_result($result);
 
     <?php
     require 'config.php';
-    $_SESSION['pageUser']=$_SESSION['link'];
+    $_SESSION['pageUser']=$user_id;
     $sql = "select * from follower where follower_id = $_SESSION[user_id] and following_id = $_SESSION[pageUser]";
     $ret = mysqli_query($conn,$sql);
     if($_SESSION['user_id']!=$_SESSION['pageUser'] && mysqli_num_rows($ret)==0){

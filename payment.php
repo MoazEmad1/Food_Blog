@@ -2,7 +2,10 @@
 require 'config.php';
 require 'includes_and_requires/bootstrap.php';
 session_start();
-
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+    header("Location: Dummy_login.php");
+    exit();
+}
 $user_id = $_SESSION['user_id'];
 
 // Check if the cart is empty

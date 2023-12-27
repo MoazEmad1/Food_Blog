@@ -26,6 +26,10 @@
 </script>
 <body>
 	<?php
+	 if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+        header("Location: Dummy_login.php");
+        exit();
+    }
 	 error_reporting(E_ERROR | E_PARSE);
 	if($_SESSION['empty']!=null){
 		echo "<div class='alert alert-danger' role='alert'>

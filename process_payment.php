@@ -4,6 +4,10 @@ require 'includes_and_requires/bootstrap.php';
 session_start();
 include 'styleTemp.php';
 include 'includes_and_requires/menu.php';
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+    header("Location: Dummy_login.php");
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];

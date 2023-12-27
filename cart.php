@@ -8,7 +8,12 @@
     <?php require 'styleTemp.php'?>
 </head>
 <body>
-    <?php include 'includes_and_requires/menu.php'?>
+    <?php include 'includes_and_requires/menu.php';
+        if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+            header("Location: Dummy_login.php");
+            exit();
+        }
+    ?>
     <div class="container mt-5">
         <h2>Your Cart</h2>
         <?php

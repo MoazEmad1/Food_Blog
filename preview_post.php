@@ -4,6 +4,10 @@
 	foreach($qry->fetch_array() as $key => $value) {
 		$meta[$key] = $value;
 	}
+	if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+        header("Location: Dummy_login.php");
+        exit();
+    }
 ?>
 <div class="container">
 	<div class="col-md-12">

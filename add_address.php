@@ -4,6 +4,9 @@ require 'includes_and_requires/bootstrap.php';
 session_start();
 include 'styleTemp.php';
 include 'includes_and_requires/menu.php';
+if(!isset($_SESSION['user_id'])){
+    header("Locaction: index.php");
+}
 ?>
 
 <!DOCTYPE html>

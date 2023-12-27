@@ -19,7 +19,7 @@
                 <a class="nav-link" href="searchMessages.php">Message</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="profile.php"><?php session_start(); echo "$_SESSION[first_name]";?></a>
+                <a class="nav-link" href="<?php session_start(); echo"profile.php?user_id= $_SESSION[user_id]";?>"><?php echo "$_SESSION[first_name]";?></a>
               </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

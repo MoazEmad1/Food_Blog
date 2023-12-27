@@ -27,6 +27,11 @@
 <body>
     <?php include 'includes_and_requires/menu.php'?>
     <?php
+
+    if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+      header("Location: Dummy_login.php");
+      exit();
+    }
     require 'config.php';
     $_SESSION['pageUser']=2;
     $sql =  "select first_name,last_name
