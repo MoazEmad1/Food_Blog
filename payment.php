@@ -5,6 +5,16 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
+// Check if the cart is empty
+$cart_check_sql = "SELECT COUNT(*) as cart_count FROM cart WHERE user_id = $user_id";
+$cart_check_result = mysqli_query($conn, $cart_check_sql);
+$cart_count_row = mysqli_fetch_assoc($cart_check_result);
+
+if ($cart_count_row['cart_count'] == 0) {
+    header("Location: store.php");
+    exit();
+}
+
 $default_address_sql = "SELECT * FROM user_address WHERE user_id = '$user_id' AND set_default = 1";
 $result = $conn->query($default_address_sql);
 
@@ -31,36 +41,33 @@ include 'includes_and_requires/menu.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Page</title>
     <script>
-    function toggleCreditCardFields() {
-        var paymentMethod = document.getElementById("payment_method").value;
-        var creditCardFields = document.getElementById("credit_card_fields");
-        var cardNumber = document.getElementById("card_number");
-        var expiryDate = document.getElementById("expiry_date");
-        var cvv = document.getElementById("cvv");
-        var payButton = document.getElementById("pay_button");
+        function toggleCreditCardFields() {
+            var paymentMethod = document.getElementById("payment_method").value;
+            var creditCardFields = document.getElementById("credit_card_fields");
+            var cardNumber = document.getElementById("card_number");
+            var expiryDate = document.getElementById("expiry_date");
+            var cvv = document.getElementById("cvv");
+            var payButton = document.getElementById("pay_button");
 
-        if (paymentMethod === "cod") {
-            creditCardFields.style.display = "none";
-            cardNumber.removeAttribute("required");
-            expiryDate.removeAttribute("required");
-            cvv.removeAttribute("required");
-            payButton.disabled = false;
-        } else {
-            creditCardFields.style.display = "block";
-            cardNumber.setAttribute("required", "");
-            expiryDate.setAttribute("required", "");
-            cvv.setAttribute("required", "");
-            payButton.disabled = true;
+            if (paymentMethod === "cod") {
+                creditCardFields.style.display = "none";
+                cardNumber.removeAttribute("required");
+                expiryDate.removeAttribute("required");
+                cvv.removeAttribute("required");
+                payButton.disabled = false;
+            } else {
+                creditCardFields.style.display = "block";
+                cardNumber.setAttribute("required", "");
+                expiryDate.setAttribute("required", "");
+                cvv.setAttribute("required", "");
+                payButton.disabled = true;
+            }
         }
-    }
-</script>
-
-
-
+    </script>
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
         <h1 class="mt-5">Payment Page</h1>
 
         <div class="mt-3">
