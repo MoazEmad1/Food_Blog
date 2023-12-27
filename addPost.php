@@ -37,7 +37,7 @@
       	</div>";
 	}else if($_SESSION['failed']!=null){
 		echo "<div class='alert alert-danger' role='alert'>
-        Comment failed to post!
+        Failed to post!
       	</div>";
 	}else if($_SESSION['succ']!=null){
 		echo "<div class='alert alert-success' role='alert'>
