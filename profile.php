@@ -7,15 +7,15 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admin_id'])) {
     header("Location: Dummy_login.php");
     exit();
 }
-// error_reporting(E_ALL);
-//     ini_set('display_errors', 1);
+
 require 'includes_and_requires/bootstrap.php';
 require 'styleTemp.php';
 
-if(!isset($_GET['user_id']))
-  $user_id = $_SESSION['link'];
-else
-  $user_id = $_GET['user_id'];
+if (!isset($_GET['user_id'])) {
+    $user_id = $_SESSION['link'];
+} else {
+    $user_id = $_GET['user_id'];
+}
 
 $sql = "SELECT * FROM page_user WHERE uid = $user_id";
 $result = mysqli_query($conn, $sql);
@@ -30,35 +30,61 @@ if (mysqli_num_rows($result) > 0) {
     die("User not found");
 }
 
+$is_banned = isUserBanned($user_id, $conn);
+
 if (isset($_POST['ban_user'])) {
     $ban_user_id = $_POST['ban_user_id'];
     
-    $check_ban_sql = "SELECT COUNT(*) as count FROM ban_table WHERE uid = '$ban_user_id'";
-    $check_result = mysqli_query($conn, $check_ban_sql);
-    
-    if ($check_result) {
-        $row = mysqli_fetch_assoc($check_result);
-        $banCount = $row['count'];
-        
-        if ($banCount == 0) {
-            $ban_sql = "INSERT INTO ban_table (uid, admin_id, banned_at) VALUES ('$ban_user_id', '{$_SESSION['admin_id']}', NOW())";
-            $ban_result = mysqli_query($conn, $ban_sql);
+    if ($is_banned) {
+        $unban_sql = "DELETE FROM ban_table WHERE uid = '$ban_user_id'";
+        $unban_result = mysqli_query($conn, $unban_sql);
 
-            if ($ban_result) {
-                echo "User with ID $ban_user_id has been banned!";
-            } else {
-                echo "Error banning user with ID $ban_user_id: " . mysqli_error($conn);
-            }
+        if ($unban_result) {
+            echo "User with ID $ban_user_id has been unbanned!";
         } else {
-            echo "User with ID $ban_user_id is already banned!";
+            echo "Error unbanning user with ID $ban_user_id: " . mysqli_error($conn);
         }
     } else {
-        echo "Error checking ban status: " . mysqli_error($conn);
+        // Ban the user
+        $check_ban_sql = "SELECT COUNT(*) as count FROM ban_table WHERE uid = '$ban_user_id'";
+        $check_result = mysqli_query($conn, $check_ban_sql);
+        
+        if ($check_result) {
+            $row = mysqli_fetch_assoc($check_result);
+            $banCount = $row['count'];
+            
+            if ($banCount == 0) {
+                $ban_sql = "INSERT INTO ban_table (uid, admin_id, banned_at) VALUES ('$ban_user_id', '{$_SESSION['admin_id']}', NOW())";
+                $ban_result = mysqli_query($conn, $ban_sql);
+
+                if ($ban_result) {
+                    echo "User with ID $ban_user_id has been banned!";
+                } else {
+                    echo "Error banning user with ID $ban_user_id: " . mysqli_error($conn);
+                }
+            } else {
+                echo "User with ID $ban_user_id is already banned!";
+            }
+        } else {
+            echo "Error checking ban status: " . mysqli_error($conn);
+        }
     }
 }
 
-
 mysqli_free_result($result);
+
+function isUserBanned($user_id, $conn) {
+    $check_ban_sql = "SELECT COUNT(*) as count FROM ban_table WHERE uid = '$user_id'";
+    $check_result = mysqli_query($conn, $check_ban_sql);
+
+    if ($check_result) {
+        $row = mysqli_fetch_assoc($check_result);
+        $banCount = $row['count'];
+        return ($banCount > 0);
+    } else {
+        return false;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,9 +127,6 @@ mysqli_free_result($result);
                     <?php echo $user['first_name'] . ' ' . $user['last_name']; ?>
                 </h5>
                 <p class="card-text">Email: <?php echo $user['email']; ?></p>
-                <!-- Add more user details as needed -->
-
-                <!-- You can also add links to edit profile, change password, etc. -->
                 <?php if ($_SESSION['user_id'] == $user['uid'] || isset($_SESSION['admin_id'])) : ?>
                     <a href="edit_profile.php?user_id=<?php echo $user['uid']; ?>">Edit Profile</a>
                 <?php endif; ?>
@@ -111,7 +134,11 @@ mysqli_free_result($result);
                 <?php if (isset($_SESSION['admin_id'])) : ?>
                     <form action="" method="post">
                         <input type="hidden" name="ban_user_id" value="<?php echo $user['uid']; ?>">
-                        <button type="submit" name="ban_user" class="btn btn-danger">Ban User</button>
+                        <?php if ($is_banned) : ?>
+                            <button type="submit" name="ban_user" class="btn btn-success">Unban User</button>
+                        <?php else : ?>
+                            <button type="submit" name="ban_user" class="btn btn-danger">Ban User</button>
+                        <?php endif; ?>
                     </form>
                 <?php endif; ?>
             </div>
