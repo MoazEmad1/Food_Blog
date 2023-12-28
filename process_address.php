@@ -1,7 +1,14 @@
 <?php
 require 'config.php';
 session_start();
-
+if(!isset($_SESSION['user_id'])){
+    header("Location: Dummy_login.php");
+    exit();
+}
+if(isset($_SESSION['admin_id'])){
+    header("Location: hompage.php");
+    exit();
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION['user_id'];
     $first_name = $_POST["first_name"];

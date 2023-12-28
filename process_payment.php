@@ -4,11 +4,15 @@ require 'includes_and_requires/bootstrap.php';
 session_start();
 include 'styleTemp.php';
 include 'includes_and_requires/menu.php';
-if (!isset($_SESSION['admin_id']) && !isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: Dummy_login.php");
     exit();
 }
 
+if(isset($_SESSION['admin_id'])){
+    header("Location: hompage.php");
+    exit();
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $address_id = $_POST['selected_address'];
@@ -21,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($conn->query($insert_order_sql) === TRUE) {
         $order_id = $conn->insert_id;
-        
+
         // Update stock quantities in grocery_item table
         $update_stock_sql = "UPDATE grocery_item gi
                              JOIN cart c ON gi.gid = c.item_id

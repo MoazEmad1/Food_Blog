@@ -5,7 +5,11 @@
     include 'styleTemp.php';
     include 'includes_and_requires/menu.php';
     if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
+        header("Location: Dummy_login.php");
+        exit();
+    }
+    if(isset($_SESSION['admin_id'])){
+        header("Location: hompage.php");
         exit();
     }
 

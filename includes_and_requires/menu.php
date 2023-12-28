@@ -9,15 +9,21 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="hompage.php">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="addPost.php">Add Post</a>
-              </li>
+              <?php if(isset($_SESSION['user_id'])){
+              echo "<li class='nav-item'>
+                <a class='nav-link' href='addPost.php'>Add Post</a>
+              </li>";
+              }
+              ?>
               <li class="nav-item">
                 <a class="nav-link" href="store.php">Store</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="searchMessages.php">Message</a>
-              </li>
+              <?php if(isset($_SESSION['user_id'])){
+              echo "<li class='nav-item'>
+                <a class='nav-link' href='searchMessages.php'>Message</a>
+              </li>";
+              }
+              ?>
               <li class="nav-item">
                 <a class="nav-link" href="<?php session_start(); echo"profile.php?user_id= $_SESSION[user_id]";?>"><?php echo "$_SESSION[first_name]";?></a>
               </li>
@@ -29,10 +35,12 @@
                 <a class='nav-link' href='admin_panel.php'>Admin Page</a>
               </li>";
               }
+              if(isset($_SESSION['user_id'])){
+                echo "<li class='nav-item'>
+                <a class='nav-link' href='cart.php'>Your Cart</a>
+              </li>";
+              }
               ?>
-              <li class="nav-item">
-                <a class="nav-link" href="cart.php">Your Cart       </a>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="logout.php">Log Out       </a>
               </li>

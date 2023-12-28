@@ -56,9 +56,15 @@ if ($result->num_rows > 0) {
 
             echo "<form method='post' action='" . $_SERVER["PHP_SELF"] . "'>";
             echo "<input type='hidden' name='item_id' value='" . $row["gid"] . "'>";
-            echo "<label for='quantity'>Quantity:</label>";
-            echo "<input type='number' name='quantity' value='1' min='1' max='" . $row["quantity"] . "' required>";
+            if(isset($_SESSION['user_id'])){
+                echo "<label for='quantity'>Quantity:</label>";
+                echo "<input type='number' name='quantity' value='1' min='1' max='" . $row["quantity"] . "' required>";
             echo "<button type='submit' class='btn btn-success'>Add to Cart</button>";
+            }
+            else{
+                echo "<button disabled class='btn btn-secondary'>Add to Cart</button>";
+
+            }
             echo "</form>";
         } else {
             echo "<p style='color: red;'>Out of Stock</p>";
