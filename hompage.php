@@ -203,7 +203,13 @@
       $ret5 = mysqli_query($conn, $sql);
       echo "{$count['count']}";
       echo " Likes</p>
-<form action='Controllers/LCController.php'>
+      <form action='Controllers/LCController.php'>";
+      if(isset($_SESSION['user_id'])){
+      echo "<input type='submit' class='btn btn-outline-success' value='" . (mysqli_num_rows($ret5)>0 ? 'Unlike' : 'Like') . "' name='like'>
+      <input type='submit' class='btn btn-outline-success' value='Comment' name='comm'>
+      <input type='text' name='comment' >";
+      }
+      echo "
       <input type = 'hidden' name='user' value='$_SESSION[user_id]'>
       <input type = 'hidden' name='post' value='{$row['pid']}'>
       <input type = 'hidden' name='loc' value='home'>

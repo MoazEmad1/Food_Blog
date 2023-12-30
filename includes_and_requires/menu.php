@@ -29,6 +29,9 @@
               </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+    <a class="nav-link" href="notifications.php">Notifications</a>
+</li>
               <?php
               if(isset($_SESSION['admin_id'])){
                 echo "<li class='nav-item'>

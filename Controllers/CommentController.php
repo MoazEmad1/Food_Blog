@@ -4,7 +4,7 @@ function test_input($data) {
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-  }
+}
 ?>
 <?php
 session_start();
@@ -12,30 +12,51 @@ require '../config.php';
 $user = $_SESSION['user'];
 $post = $_SESSION['post'];
 $comment = test_input($_SESSION['comment']);
-$sql = "
-insert into post_comment(uid,pid,commented_at,content)
-values ($user,$post,now(),'$comment');
+
+$sqlNotification = "
+    INSERT INTO notifications (user_id, post_id, notification_type, created_at)
+    VALUES (
+        (SELECT user_id FROM post WHERE pid = $post),
+        $post,
+        'comment',
+        NOW()
+    )
 ";
-if($_SESSION['loc']=='home'){
-    $loc = "../hompage.php";
-}else if ($_SESSION['loc']=='user'){
+
+$sqlComment = "
+    INSERT INTO post_comment (uid, pid, commented_at, content)
+    VALUES ($user, $post, NOW(), '$comment')
+";
+
+if ($_SESSION['loc'] == 'home') {
+    $loc = "../homepage.php";
+} elseif ($_SESSION['loc'] == 'user') {
     $loc = "../profile.php";
 }
-//empty comment validation
-if($comment == ""){
-    $_SESSION['failed']=true;
+
+if ($comment == "") {
+    $_SESSION['failed'] = true;
     header("Location: $loc");
-}else{
-    try{
-        $ret = mysqli_query($conn,$sql);
-        unset($_SESSION['user']);
-        unset($_SESSION['post']);
-        $_SESSION['succ'] = true;
-        header("Location: $loc");
-    }catch(Exception $e){
-        $_SESSION['failed']=true;
+} else {
+    try {
+        $retComment = mysqli_query($conn, $sqlComment);
+
+        $retNotification = mysqli_query($conn, $sqlNotification);
+
+        if ($retComment && $retNotification) {
+            unset($_SESSION['user']);
+            unset($_SESSION['post']);
+            $_SESSION['succ'] = true;
+            header("Location: $loc");
+        } else {
+            $_SESSION['failed'] = true;
+            header("Location: $loc");
+        }
+    } catch (Exception $e) {
+        $_SESSION['failed'] = true;
         header("Location: $loc");
     }
 }
+
 $conn->close();
 ?>

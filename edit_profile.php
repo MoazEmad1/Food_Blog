@@ -17,7 +17,6 @@ require 'styleTemp.php';
 
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['user_id'];
 
-// Fetch user details from the database
 $sql = "SELECT * FROM page_user WHERE uid = $user_id";
 $result = mysqli_query($conn, $sql);
 
@@ -31,7 +30,6 @@ if (mysqli_num_rows($result) > 0) {
     die("User not found");
 }
 
-// Handle form submissions
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
@@ -39,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    // Update user details in the database
     $update_sql = "UPDATE page_user SET user_name = '$username', first_name = '$first_name', 
                    last_name = '$last_name', email = '$email', pass = '$password' 
                    WHERE uid = $user_id";
