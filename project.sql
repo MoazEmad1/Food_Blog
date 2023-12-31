@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 26, 2023 at 04:16 PM
+-- Generation Time: Dec 31, 2023 at 04:47 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -69,14 +69,6 @@ CREATE TABLE `cart` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `user_id`, `item_id`, `quantity`, `timestamp`) VALUES
-(1, 1, 2, 10, '2023-12-22 16:03:31'),
-(2, 1, 3, 20, '2023-12-26 00:29:55');
-
 -- --------------------------------------------------------
 
 --
@@ -109,8 +101,8 @@ CREATE TABLE `grocery_item` (
 
 INSERT INTO `grocery_item` (`gid`, `quantity`, `price`, `item_name`, `img_url`, `is_veg`) VALUES
 (1, 0, 2, 'Apple', 'apple.jpg', 1),
-(2, 3, 3, 'Banana', 'banana.jpg', 1),
-(3, 20, 1, 'Carrot', 'carrot.jpg', 1);
+(2, 10, 3, 'Banana', 'banana.jpg', 1),
+(3, 0, 1, 'Carrot', 'carrot.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -151,6 +143,28 @@ INSERT INTO `message` (`mid`, `personA`, `personB`, `mesageContent`, `sent_at`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `notification_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `seen` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`notification_id`, `user_id`, `message`, `seen`, `timestamp`) VALUES
+(1, 2, 'john_doe liked your post!', 1, '2023-12-30 15:04:57'),
+(2, 2, 'john_doe liked your post!', 1, '2023-12-30 15:06:44');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -173,7 +187,12 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address_id`, `total_amount`, `paym
 (2, 2, 1, 5.00, 'cod', '2023-12-26 15:10:19', 'Pending'),
 (3, 2, 1, 40.00, 'cod', '2023-12-26 15:11:17', 'Pending'),
 (4, 2, 1, 15.00, 'cod', '2023-12-26 15:13:14', 'Pending'),
-(5, 2, 1, 21.00, 'cod', '2023-12-26 15:14:31', 'Pending');
+(5, 2, 1, 21.00, 'cod', '2023-12-26 15:14:31', 'Pending'),
+(6, 1, 2, 27.00, 'cod', '2023-12-27 09:07:40', 'Pending'),
+(7, 1, 2, 27.00, 'cod', '2023-12-27 09:07:47', 'Pending'),
+(8, 1, 3, 16.00, 'cod', '2023-12-27 09:14:42', 'Pending'),
+(9, 1, 2, 1.00, 'cod', '2023-12-27 11:46:04', 'Pending'),
+(10, 1, 4, 9.00, 'cod', '2023-12-28 13:37:03', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -236,7 +255,9 @@ INSERT INTO `post` (`pid`, `img_url`, `title`, `published_at`, `is_veg`, `captio
 (4, 'Users/test/images/apple.jpg', 'test', '2023-12-22 20:32:47', 1, 'delicious', 2),
 (5, 'Users/test/images/palette.png', 'chicken tikka', '2023-12-26 02:27:23', 0, 'chikcalkdjfalksnvla;kjoiwrj', 1),
 (6, 'assets/img/posts/', 'food recipe', '2023-12-26 04:29:50', 0, 'config', 1),
-(7, 'assets/img/posts/logo3.jpeg', 'food recipe', '2023-12-26 04:30:49', 0, 'leeeeh', 1);
+(7, 'assets/img/posts/logo3.jpeg', 'food recipe', '2023-12-26 04:30:49', 0, 'leeeeh', 1),
+(8, 'Users/test/images/butter-chicken-4.jpg', 'butter-chicken-4.jpg', '2023-12-26 21:29:43', 0, 'A great butter chicken', 2),
+(9, 'Users/test/images/butter-chicken-4.jpg', 'Butter Chicken', '2023-12-26 21:31:39', 0, 'a great one', 2);
 
 -- --------------------------------------------------------
 
@@ -293,7 +314,9 @@ INSERT INTO `post_comment` (`uid`, `pid`, `commented_at`, `content`) VALUES
 (2, 1, '2023-12-22 23:00:30', 'lll'),
 (2, 1, '2023-12-22 23:00:52', 'primary 2'),
 (1, 5, '2023-12-26 02:27:52', 'Hello there how you doing'),
-(1, 5, '2023-12-26 02:28:07', 'What time is it now?');
+(1, 5, '2023-12-26 02:28:07', 'What time is it now?'),
+(2, 4, '2023-12-26 21:33:51', 'what an apple'),
+(1, 9, '2023-12-30 15:07:11', 'hi there');
 
 -- --------------------------------------------------------
 
@@ -316,6 +339,7 @@ INSERT INTO `post_like` (`uid`, `pid`, `liked_at`) VALUES
 (1, 2, '2023-12-22 23:26:55'),
 (1, 3, '2023-12-22 23:28:31'),
 (1, 5, '2023-12-26 02:27:41'),
+(1, 9, '2023-12-30 15:06:44'),
 (2, 1, '2023-12-22 22:32:51'),
 (2, 2, '2023-12-22 22:34:43'),
 (2, 3, '2023-12-22 22:35:29'),
@@ -389,7 +413,10 @@ CREATE TABLE `user_address` (
 --
 
 INSERT INTO `user_address` (`address_id`, `user_id`, `first_name`, `last_name`, `phone_prefix`, `phone_number`, `additional_phone`, `address`, `additional_info`, `city`, `set_default`) VALUES
-(1, 2, 'Moaz', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 1);
+(1, 2, 'Moaz', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 1),
+(2, 1, 'Moaz', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 0),
+(3, 1, 'ZOZ', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 0),
+(4, 1, 'jgh', 'Hussein', '+20', '1005854360', '', 'Fifth Settlement, Narges Buildings, Mohamed Sabry Abu Alam Street, building 317', '', 'Cairo', 1);
 
 --
 -- Indexes for dumped tables
@@ -443,6 +470,13 @@ ALTER TABLE `message`
   ADD PRIMARY KEY (`mid`),
   ADD KEY `PAFK` (`personA`),
   ADD KEY `PBFK` (`personB`);
+
+--
+-- Indexes for table `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `orders`
@@ -516,13 +550,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `ban_table`
 --
 ALTER TABLE `ban_table`
-  MODIFY `ban_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ban_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `grocery_item`
@@ -537,10 +571,16 @@ ALTER TABLE `message`
   MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `page_user`
@@ -552,7 +592,7 @@ ALTER TABLE `page_user`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -564,7 +604,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `user_address`
 --
 ALTER TABLE `user_address`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -603,6 +643,12 @@ ALTER TABLE `item_confirmation`
 ALTER TABLE `message`
   ADD CONSTRAINT `PAFK` FOREIGN KEY (`personA`) REFERENCES `page_user` (`uid`),
   ADD CONSTRAINT `PBFK` FOREIGN KEY (`personB`) REFERENCES `page_user` (`uid`);
+
+--
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `page_user` (`uid`);
 
 --
 -- Constraints for table `orders`

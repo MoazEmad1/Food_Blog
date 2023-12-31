@@ -2,9 +2,12 @@
 session_start();
 require '../config.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $sender = $_GET['sender'];
 $receiver = $_GET['receiver'];
-$message = $_GET['mes'];
+$message = mysqli_real_escape_string($conn, $_GET['mes']);
 
 $getSenderNameSql = "SELECT user_name FROM page_user WHERE uid = $sender";
 $getSenderNameResult = mysqli_query($conn, $getSenderNameSql);
@@ -21,12 +24,16 @@ if ($getSenderNameResult && $getReceiverNameResult) {
 
     $loc = "../messages.php";
     $sql = "
-        INSERT INTO message(personA, personB, messageContent, sent_at) 
+        INSERT INTO message(personA, personB, mesageContent, sent_at) 
         VALUES($sender, $receiver, '$message', now());
     ";
-
+    
     try {
         $ret = mysqli_query($conn, $sql);
+
+        if (!$ret) {
+            throw new Exception(mysqli_error($conn));
+        }
 
         $notificationMessage = "$senderName sent you a message!";
         $notificationSql = "
@@ -37,10 +44,11 @@ if ($getSenderNameResult && $getReceiverNameResult) {
         mysqli_query($conn, $notificationSql);
 
         $_SESSION['succ'] = true;
+        echo "Message sent successfully!";
         header("Location: $loc");
     } catch (Exception $e) {
         $_SESSION['failed'] = true;
-        echo "$e";
+        echo "Error: $e";
         header("Location: $loc");
     }
 } else {
