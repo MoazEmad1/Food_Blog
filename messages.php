@@ -67,11 +67,10 @@ include 'includes_and_requires/menu.php' ;
     <script>
         document.getElementById('speechToTextButton').addEventListener('click', function () {
             var recognition = new webkitSpeechRecognition(); 
-            var recognition = new SpeechRecognition();
-            // recognition.lang = 'ar';
 
             recognition.onresult = function (event) {
                 var transcript = event.results[0][0].transcript;
+
                 document.getElementById('messageInput').value += transcript + ' ';
             };
 
