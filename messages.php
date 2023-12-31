@@ -57,6 +57,7 @@ include 'includes_and_requires/menu.php' ;
     </div>
     <form action="Controllers/messageController.php">
         <textarea id="messageInput" name="mes" cols="60" rows="5" placeholder="Send your message here...."></textarea>
+        <button type="button" id="speechToTextButton">Speech to Text</button>
         <br>
         <input type="submit" name="send" value="send">
         <input type="hidden" value="<?php echo $user_id; ?>" name="sender">
@@ -77,6 +78,17 @@ include 'includes_and_requires/menu.php' ;
                 var speechUtterance = new SpeechSynthesisUtterance(messageText);
                 speechSynthesis.speak(speechUtterance);
             }
+        });
+
+        document.getElementById('speechToTextButton').addEventListener('click', function () {
+            var recognition = new webkitSpeechRecognition(); 
+
+            recognition.onresult = function (event) {
+                var transcript = event.results[0][0].transcript;
+                document.getElementById('messageInput').value += transcript + ' ';
+            };
+
+            recognition.start();
         });
     </script>
 
