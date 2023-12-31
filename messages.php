@@ -40,7 +40,7 @@ include 'includes_and_requires/menu.php' ;
     $ret = mysqli_query($conn,$sql);
   ?>
 
-<div class="message_box">
+    <div class="message_box">
         <?php
         while ($row = mysqli_fetch_assoc($ret)) {
             if ($row['personA'] == $user_id) {
@@ -65,23 +65,10 @@ include 'includes_and_requires/menu.php' ;
     </form>
 
     <script>
-        document.addEventListener('keydown', function (event) {
-            var activeElement = document.activeElement;
-            var messageInput = document.getElementById('messageInput');
-
-            if (event.key === 't' && activeElement !== messageInput) {
-                var messages = document.querySelectorAll('.message');
-                var lastMessage = messages[messages.length - 1];
-                var messageText = lastMessage.getAttribute('data-message');
-
-                var speechSynthesis = window.speechSynthesis;
-                var speechUtterance = new SpeechSynthesisUtterance(messageText);
-                speechSynthesis.speak(speechUtterance);
-            }
-        });
-
         document.getElementById('speechToTextButton').addEventListener('click', function () {
             var recognition = new webkitSpeechRecognition(); 
+            var recognition = new SpeechRecognition();
+            // recognition.lang = 'ar';
 
             recognition.onresult = function (event) {
                 var transcript = event.results[0][0].transcript;
